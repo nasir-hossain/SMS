@@ -1,0 +1,86 @@
+﻿
+* {
+    margin: 0;
+    padding: 0
+}
+
+a {
+    text-decoration: none
+}
+
+ul {
+    list-style-type: none;
+}
+
+ul li {
+    background-color: skyblue;
+    margin-top: 1px;
+    padding: 5px;
+}
+
+ul li a {
+color: black;
+}
+
+ul li:hover {
+/*text-decoration: underline*/
+background-color: lightsteelblue;
+}
+
+ul li:hover a{
+color: black;
+font-weight: bold;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    margin-top: 10px;
+    margin-bottom: 10px
+}
+
+p {
+    line-height: 150%;
+    margin-bottom: 2em;
+}
+
+
+.aligncenter {
+    display: block;
+    margin: 0 auto;
+}
+
+
+.floatleft {
+    float: left;
+}
+
+.floatright {
+    float: right
+}
+
+
+
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    /*overflow-x: scroll;*/
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: whitesmoke;
+    /*overflow-x: hidden;*/
+    padding-top: 20px;
+    margin-top: 98px;
+}
+
+.contentMain {
+    margin-left: 250px; /* Same as the width of the sidenav */
+    font-size: 20px; /* Increased text to enable scrolling */
+    margin-top:100px;
+    /*overflow-x:scroll;*/
+    
+}
+
+
+

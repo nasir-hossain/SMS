@@ -1,0 +1,35 @@
+﻿.stickHeader {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 999999999999;
+}
+
+
+.flex-container {
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    padding: 10px;
+}
+
+.flex-item-1 {
+    flex: 10%;
+}
+
+.flex-item-2 {
+    flex: 75%;
+}
+
+.flex-item-3 {
+    flex: 15%;
+}
+
+
+/*@media (max-width: 800px) {
+    .flex-item-1, .flex-item-2 {
+        flex: 100%;
+    }
+}*/
+
+

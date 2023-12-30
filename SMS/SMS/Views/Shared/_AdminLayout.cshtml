@@ -1,0 +1,69 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - SMS</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SMS.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/header.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/adminMain.css" asp-append-version="true" />
+
+</head>
+<body>
+    <header>
+        <div class="container-fluid">
+            <div class="row bg-success p-2 border-bottom border-2 border-warning stickHeader">
+
+                <div class="flex-container">
+                    <div class="flex-item-1">
+                        <img src="~/image/logo.png" style="width:60px; height:60px;" class="img-fluid" />
+                    </div>
+
+                    <div class="flex-item-2">
+                        <p class="h3 text-white text-md-center mt-md-1">Bangladesh Army International University of Science and Technology</p>
+                    </div>
+
+                    <div class="flex-item-3">
+                        <a class="px-2 py-1 btn btn-outline-warning me-1 mt-2" role="button" asp-area="" asp-controller="Home" asp-action="Privacy">APPLY</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <div class="container-fluid">
+        <main role="main" class="pb-3">
+            <div class="sidebar floatleft">
+                <h4 class="ms-3 border border-1 border-success bg-warning text-center p-1">Admin Dashboard</h4>
+                <ul>
+                    <li><a href="#about">Applicants Info</a></li>
+                    <li><a href="#services">Semester</a></li>
+                    <li><a href="#clients">Department</a></li>
+                    <li><a href="#clients">Course</a></li>
+                </ul>
+            </div>
+
+            <div class="contentMain floatleft">
+                @RenderBody()
+            </div>
+
+        </main>
+    </div>
+
+
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
