@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using SMS.DBContext;
@@ -11,6 +12,27 @@ builder.Services.AddDbContext<AppDbContext>(options =>
          options.UseSqlServer(builder.Configuration.GetConnectionString("Development")));
 
 
+
+
+#region============= Cookie Based Authentication ============
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+.AddCookie(options =>
+{
+    options.LoginPath = "/Auth/Login"; // Set the login page URL
+    options.LogoutPath = "/Auth/Logout"; // Set the logout page URL
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(1); // 
+    options.AccessDeniedPath = "/Auth/AccessDenied/"; // Set AccessDenied URL if Deny the access of an User after log in
+});
+
+builder.Services.AddAuthorization(options => //For Role Based Authorization
+{
+    options.AddPolicy("SuperAdminPolicy", policy => policy.RequireRole("SuperAdmin"));
+    options.AddPolicy("AplicantPolicy", policy => policy.RequireRole("Applicant"));
+    options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
+});
+
+builder.Services.AddHttpContextAccessor();
+#endregion
 
 
 
@@ -28,7 +50,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

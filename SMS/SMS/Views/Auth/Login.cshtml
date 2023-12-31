@@ -1,8 +1,8 @@
 ﻿@model SMS.ViewModel.LoginViewModel
 
-<div class="login-container">
-    <h2>Login Form</h2>
 
+
+<div class="login-container">
     <form asp-controller="Auth" asp-action="Verify" method="post">
         <div class="form-group">
             <label asp-for="Email">Username</label>
@@ -15,7 +15,7 @@
         </div>
 
         <input type="hidden" name="returnUrl" value="@ViewData["returnedURL"]" />
-        <button type="submit" class="login-button">Login</button>
+        <button type="submit" class=" btn btn-primary rounded">Login</button>
     </form>
 </div>
 

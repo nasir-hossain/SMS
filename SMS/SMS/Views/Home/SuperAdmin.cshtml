@@ -1,4 +1,25 @@
-﻿
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    ViewData["Title"] = "Admin DashBoard";
+
+    var userInfo = HttpContextAccessor.HttpContext.User;
+    var roles = userInfo.FindAll(System.Security.Claims.ClaimTypes.Role).Select(x => x.Value).FirstOrDefault();
+}
+
+@if (roles == "SuperAdmin")
+{
+    // Render Admin layout
+    Layout = "_AdminLayout";
+}
+
+else
+{
+    Layout = "_Layout";
+}
+
+
+
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>

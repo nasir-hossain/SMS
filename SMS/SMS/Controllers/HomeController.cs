@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SMS.Models;
 using System.Diagnostics;
 
 namespace SMS.Controllers
 {
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -19,6 +21,20 @@ namespace SMS.Controllers
         }
 
         public IActionResult Privacy()
+        {
+            return View();
+        }
+
+
+        [Authorize(Policy = "SuperAdminPolicy")]
+        public IActionResult SuperAdmin()
+        {
+            return View();
+        }
+
+
+        [Authorize(Policy = "Admin")]
+        public IActionResult Admin()
         {
             return View();
         }

@@ -64,7 +64,7 @@ p {
     height: 100%;
     width: 250px;
     position: fixed;
-    /*overflow-x: scroll;*/
+    overflow: scroll;
     z-index: 1;
     top: 0;
     left: 0;
@@ -77,10 +77,15 @@ p {
 .contentMain {
     margin-left: 250px; /* Same as the width of the sidenav */
     font-size: 20px; /* Increased text to enable scrolling */
-    margin-top:100px;
-    /*overflow-x:scroll;*/
-    
+    margin-top: 100px;
+    /*width: 100%;*/
+    /*overflow:auto;*/
+    height:100%;
+
+    position:fixed;
+    overflow:scroll;
 }
+
 
 
 
