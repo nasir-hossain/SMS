@@ -45,11 +45,14 @@ namespace SMS.Controllers
                                      && ur.IntUserId == UserInfo.IntId
                                      select r.StrRoleName).ToListAsync();
 
-                List < Claim > claims = new List<Claim>
+                List<Claim> claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.NameIdentifier, loginObject.Email),
                     new Claim(ClaimTypes.Email, loginObject.Email),
+                    new Claim(ClaimTypes.Name, UserInfo.StrFullName)
                 };
+
+
 
                 Role.ForEach(item =>
                 {
@@ -74,6 +77,7 @@ namespace SMS.Controllers
                 {
                     return Redirect(ReturnUrl);
                 }
+
 
                 else // Default Request er jonno  => Project Run korle
                 {

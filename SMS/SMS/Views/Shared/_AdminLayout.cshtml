@@ -1,4 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    var userInfo = HttpContextAccessor.HttpContext.User;
+    var Email = userInfo.FindAll(System.Security.Claims.ClaimTypes.Email).Select(x => x.Value).FirstOrDefault();
+    var Name = userInfo.FindAll(System.Security.Claims.ClaimTypes.Name).Select(x => x.Value).FirstOrDefault();
+
+}
+
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -26,7 +37,10 @@
                     </div>
 
                     <div class="flex-item-3">
-                        <a class="px-2 py-1 btn btn-outline-warning me-1 mt-2" role="button" asp-area="" asp-controller="Home" asp-action="Privacy">APPLY</a>
+                        @if (userInfo.Identity.IsAuthenticated)
+                        {
+                            <p>@Name</p>
+                        }
                     </div>
                 </div>
             </div>
