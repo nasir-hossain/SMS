@@ -24,10 +24,10 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     options.AccessDeniedPath = "/Auth/AccessDenied/"; // Set AccessDenied URL if Deny the access of an User after log in
 });
 
-builder.Services.AddAuthorization(options => //For Role Based Authorization
+builder.Services.AddAuthorization(options => //For Policy Based Authorization
 {
     options.AddPolicy("SuperAdminPolicy", policy => policy.RequireRole("SuperAdmin"));
-    options.AddPolicy("AplicantPolicy", policy => policy.RequireRole("Applicant"));
+    options.AddPolicy("ApplicantPolicy", policy => policy.RequireRole("Applicant"));
     options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
 });
 

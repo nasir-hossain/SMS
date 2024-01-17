@@ -1,0 +1,29 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    var Email = "";
+    var Name = "";
+    var userInfo = HttpContextAccessor.HttpContext.User;
+    if (userInfo.Identity.IsAuthenticated)
+    {
+        Email = userInfo.FindAll(System.Security.Claims.ClaimTypes.Email).Select(x => x.Value).FirstOrDefault();
+        Name = userInfo.FindAll(System.Security.Claims.ClaimTypes.Name).Select(x => x.Value).FirstOrDefault();
+    }
+}
+
+
+
+<div class="flex-item-3 text-light">
+    @if (!string.IsNullOrEmpty(Name))
+    {
+        @Name
+        <img src="~/image/profile.png" style="width:40px; height:40px;" class="img-fluid" />
+    }
+    else
+    {
+        <a class="px-1 py-1 btn btn-outline-warning me-1 mt-2 " role="button" asp-area="" asp-controller="Auth" asp-action="Login">SIGN IN</a>
+    }
+
+ </div>
+
+

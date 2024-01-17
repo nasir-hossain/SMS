@@ -1,14 +1,4 @@
-﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
-@{
-    var userInfo = HttpContextAccessor.HttpContext.User;
-    var Email = userInfo.FindAll(System.Security.Claims.ClaimTypes.Email).Select(x => x.Value).FirstOrDefault();
-    var Name = userInfo.FindAll(System.Security.Claims.ClaimTypes.Name).Select(x => x.Value).FirstOrDefault();
-
-}
-
-
-
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,12 +26,7 @@
                         <p class="h3 text-white text-md-center mt-md-1">Bangladesh Army International University of Science and Technology</p>
                     </div>
 
-                    <div class="flex-item-3">
-                        @if (userInfo.Identity.IsAuthenticated)
-                        {
-                            <p>@Name</p>
-                        }
-                    </div>
+                    <partial name="_HeaderPartial" />
                 </div>
             </div>
         </div>

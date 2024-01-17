@@ -19,12 +19,11 @@ namespace SMS.Controllers
 
 
         [HttpGet]
-        public IActionResult Login(string ReturnUrl) 
+        public IActionResult Login(string ReturnUrl)
         {
             ViewData["returnedURL"] = ReturnUrl;
             return View();
         }
-
 
 
         [HttpPost]
@@ -32,7 +31,7 @@ namespace SMS.Controllers
         {
 
             var UserInfo = await _context.TblUser
-                                         .Where(x => x.StrEmail == loginObject.Email 
+                                         .Where(x => x.StrEmail == loginObject.Email
                                                   && x.StrPassword == loginObject.Password
                                                   && x.IsActive == true)
                                          .FirstOrDefaultAsync();
@@ -40,24 +39,24 @@ namespace SMS.Controllers
             {
 
                 List<string> Role = await (from ur in _context.TblUserRole
-                                     join r in _context.TblRole on ur.IntRoleId equals r.IntId
-                                     where r.IsActive == true && ur.IsActive == true 
-                                     && ur.IntUserId == UserInfo.IntId
-                                     select r.StrRoleName).ToListAsync();
+                                           join r in _context.TblRole on ur.IntRoleId equals r.IntId
+                                           where r.IsActive == true && ur.IsActive == true
+                                           && ur.IntUserId == UserInfo.IntId
+                                           select r.StrRoleName).ToListAsync();
 
                 List<Claim> claims = new List<Claim>
                 {
-                    new Claim(ClaimTypes.NameIdentifier, loginObject.Email),
-                    new Claim(ClaimTypes.Email, loginObject.Email),
-                    new Claim(ClaimTypes.Name, UserInfo.StrFullName)
+                   new Claim(ClaimTypes.NameIdentifier, UserInfo.IntId.ToString()),
+                   //new Claim(ClaimTypes.NameIdentifier,UserInfo.StrEmail),
+                   new Claim(ClaimTypes.Email, UserInfo.StrEmail),
+                   new Claim(ClaimTypes.Name, UserInfo.StrFullName)
                 };
 
-
-
-                Role.ForEach(item =>
-                {
-                    claims.Add(new Claim(ClaimTypes.Role, item));
-                });
+                //Role.ForEach(item =>
+                //{
+                //    claims.Add(new Claim(ClaimTypes.Role, item));
+                //});
+                claims.AddRange(Role.Select(item => new Claim(ClaimTypes.Role, item)));
 
 
                 //ClaimsIdentity identity = new ClaimsIdentity(claims,"Cookies");
@@ -69,7 +68,20 @@ namespace SMS.Controllers
                     IsPersistent = true,
                 };
 
+                var principalClaimsBeforeSignIn = principal.Claims.ToList();
+                foreach (var claim in principalClaimsBeforeSignIn)
+                {
+                    Console.WriteLine($"Type: {claim.Type}, Value: {claim.Value}");
+                }
+
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
+
+
+                var principalClaimsAfterSignIn = HttpContext.User.Claims.ToList();
+                foreach (var claim in principalClaimsAfterSignIn)
+                {
+                    Console.WriteLine($"Type: {claim.Type}, Value: {claim.Value}");
+                }
 
 
                 // Je page er jonno Http Request korechi sei URL er jonno (URL a kono ekta Req korle./ menu theke req korle)
@@ -79,30 +91,13 @@ namespace SMS.Controllers
                 }
 
 
-                else // Default Request er jonno  => Project Run korle
+                else //Access Denied hoile Auth/Login a direct hoy (Configure theika). tokhon return URL ta null niya ase.
                 {
-                    string role = "";
-                    var loggedInUser = HttpContext.User;
-                    if (loggedInUser.Identity.IsAuthenticated)
-                    {
-                        role = loggedInUser.FindFirstValue(ClaimTypes.Role);
-                    }
 
-                    if(role == "SuperAdmin")
-                    {
-                        return RedirectToAction("SuperAdmin", "Home");
-                    }
-                    else if (role == "Admin")
-                    {
-                        return RedirectToAction("SuperAdmin", "Home");
-                    }
-                    else
-                    {
-                        return RedirectToAction("Index", "Home");
-                    }
+                    return RedirectToAction("Index", "Home");
                 }
             }
-               
+
             return RedirectToAction("Login", "Auth");
         }
 

@@ -1,12 +1,4 @@
-﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
-
-@{
-    var userInfo = HttpContextAccessor.HttpContext.User;
-    var Email = userInfo.FindAll(System.Security.Claims.ClaimTypes.Email).Select(x => x.Value).FirstOrDefault();
-    var Name = userInfo.FindAll(System.Security.Claims.ClaimTypes.Name).Select(x => x.Value).FirstOrDefault();
-}
-
-
+﻿
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,24 +13,7 @@
 </head>
 <body>
     <header>
-        @*  <div class="container-fluid">
-        <div class="row bg-success p-4">
-        <div class="col-md-2 col-sm-1">
-        <img src="~/image/logo.png" style="width:50px; height:50px;" class="img-fluid" />
-        </div>
-
-        <div class="col-md-8 col-sm-10">
-        <p class="h3 text-white text-md-center">Bangladesh Army International University of Science and Technology</p>
-        </div>
-
-        <div class="col-md-2 col-sm-1">
-
-        </div>
-
-        </div>
-        </div> *@
-
-
+      
         <div class="container-fluid">
             <div class="row bg-success p-2 border-bottom border-2 border-warning stickHeader">
 
@@ -53,20 +28,8 @@
                         <p class="h3 text-white text-md-center mt-md-1">Bangladesh Army International University of Science and Technology</p>
                     </div>
 
-
-                    <div class="flex-item-3">
-                        @if (userInfo.Identity.IsAuthenticated)
-                        {
-                            @*<a class="px-2 py-1 btn btn-outline-warning me-1 mt-2" role="button" asp-area="" asp-controller="Home" asp-action="Privacy">APPLY</a> *@
-                            <p>@Name</p>
-                        }
-                        else
-                        {
-                            @* <a class="px-2 py-1 btn btn-outline-warning me-1 mt-2" role="button" asp-area="" asp-controller="Home" asp-action="Privacy">APPLY</a> *@
-                            <a class="px-1 py-1 btn btn-outline-warning me-1 mt-2 " role="button" asp-area="" asp-controller="Auth" asp-action="Login">SIGN IN</a>
-                        }
-                    </div>
-
+                    <partial name="_HeaderPartial" />
+                  
                 </div>
 
             </div>
@@ -74,27 +37,6 @@
 
 
 
-
-
-        @*  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container-fluid">
-        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">SMS</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-        <ul class="navbar-nav flex-grow-1">
-        <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-        </li>
-        <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </li>
-        </ul>
-        </div>
-        </div>
-        </nav> *@
     </header>
 
 
@@ -106,12 +48,12 @@
 
 
 
-    <footer class="border-top footer text-muted">
+@*     <footer class="border-top footer text-muted">
         <div class="container">
             &copy; 2023 - SMS - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
-
+ *@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
