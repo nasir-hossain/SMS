@@ -101,5 +101,21 @@ namespace SMS.Controllers
             return RedirectToAction("Login", "Auth");
         }
 
+
+
+        [HttpGet] 
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return RedirectToAction("Index", "Home"); // Redirect to the home page after logout
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return Unauthorized("Access Denied: You do not have permission to access this resource.");
+            //return View();
+        }
+
+
     }
 }

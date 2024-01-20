@@ -1,0 +1,40 @@
+﻿@model IEnumerable<SMS.ViewModel.SemesterViewModel>
+
+@{
+    ViewData["Title"] = "Get Semester";
+    Layout = "_AdminLayout";
+}
+
+
+<p>
+    <a asp-controller="MasterService" asp-action="CreateSemester" class="btn btn-primary mt-3 ms-2">Create</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Semester Name
+            </th>
+            <th>
+               Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SemesterName)
+                </td>
+                <td>
+                    <a asp-action="" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="" asp-route-id="@item.Id">Details</a> |
+                    <a asp-controller="MasterService" asp-action="DeleteSemester" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

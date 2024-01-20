@@ -14,5 +14,8 @@ namespace SMS.DBContext
         public DbSet<TblUser> TblUser { get; set; } 
         public DbSet<TblRole> TblRole { get; set; }
         public DbSet<TblUserRole> TblUserRole { get; set; } 
+        public DbSet<TblDepartment> TblDepartment { get; set; } 
+        public DbSet<TblSemester> TblSemester { get; set; } 
+
     }
 }

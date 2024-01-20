@@ -16,14 +16,21 @@
 <div class="flex-item-3 text-light">
     @if (!string.IsNullOrEmpty(Name))
     {
-        @Name
-        <img src="~/image/profile.png" style="width:40px; height:40px;" class="img-fluid" />
+        <div class="Profilelogo">
+            @Name
+            <a><img src="~/image/profile.png" style="width:40px; height:40px;" class="img-fluid" /></a>
+            <ul>
+                <li><a asp-Controller="" asp-action="">View Profile</a></li>
+                <li><a asp-Controller="" asp-action="">Edit Profile</a></li>
+                <li><a asp-controller="Auth" asp-action="Logout">Log out</a></li>
+            </ul>
+        </div>
     }
     else
     {
         <a class="px-1 py-1 btn btn-outline-warning me-1 mt-2 " role="button" asp-area="" asp-controller="Auth" asp-action="Login">SIGN IN</a>
     }
 
- </div>
+</div>
 
 

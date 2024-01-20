@@ -1,16 +1,17 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using SMS; //For DependancyContainerClass
 using SMS.DBContext;
+using SMS.IRepository;
+using SMS.Repository;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
 builder.Services.AddDbContext<AppDbContext>(options =>
          options.UseSqlServer(builder.Configuration.GetConnectionString("Development")));
-
 
 
 
@@ -33,6 +34,12 @@ builder.Services.AddAuthorization(options => //For Policy Based Authorization
 
 builder.Services.AddHttpContextAccessor();
 #endregion
+
+
+//builder.Services.AddTransient<IMasterService, MasterService>(); //Registering Service for Dependancy Injection
+//As RegisterServices method is a Static method, so we don't need to create an instance of DependancyContainer class.
+DependancyContainer.RegisterServices(builder.Services, builder, builder.Configuration); //Registering Service for Dependancy Injection
+
 
 
 

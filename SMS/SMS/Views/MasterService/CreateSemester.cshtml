@@ -1,0 +1,33 @@
+﻿@model SMS.ViewModel.SemesterViewModel
+
+@{
+    ViewData["Title"] = "Create Semester";
+    Layout = "_AdminLayout";
+
+}
+
+<div class="row">
+    <div class="col-md-2">
+    </div>
+
+    <div class="col-md-3">
+        <form asp-controller="MasterService" asp-action="CreateSemester" method="post" Id="myForm" onsubmit="clearFormFields();">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mt-2">
+                <label asp-for="SemesterName" class="control-label">Semester Name</label>
+                <input asp-for="SemesterName" class="form-control" />
+                <span asp-validation-for="SemesterName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mt-2">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a class="btn btn-success" asp-controller="MasterService" asp-action="GetSemester">Back to list</a>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
