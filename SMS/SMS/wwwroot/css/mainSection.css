@@ -8,29 +8,6 @@ a {
     text-decoration: none
 }
 
-ul {
-    list-style-type: none;
-}
-
-ul li {
-    margin-top: 1px;
-    padding: 5px;
-}
-
-ul li a {
-color: black;
-}
-
-ul li:hover {
-/*text-decoration: underline*/
-background-color: lightsteelblue;
-}
-
-ul li:hover a{
-color: black;
-font-weight: bolder;
-}
-
 h1, h2, h3, h4, h5, h6 {
     font-weight: normal;
     margin-top: 10px;
