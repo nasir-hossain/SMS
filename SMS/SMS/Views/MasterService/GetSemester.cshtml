@@ -6,35 +6,57 @@
 }
 
 
+
 <p>
     <a asp-controller="MasterService" asp-action="CreateSemester" class="btn btn-primary mt-3 ms-2">Create</a>
 </p>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Semester Name
-            </th>
-            <th>
-               Action
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SemesterName)
-                </td>
-                <td>
-                    <a asp-action="" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-action="" asp-route-id="@item.Id">Details</a> |
-                    <a asp-controller="MasterService" asp-action="DeleteSemester" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+@if (!string.IsNullOrEmpty(ViewBag.Msg))
+{
+    <h5 class="text-danger">@ViewBag.Msg</h5>
+}
+
+<div>
+    <div class="row">
+        <div class="col-8">
+
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            Semester Name
+                        </th>
+                        <th>
+                            Action
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.SemesterName)
+                            </td>
+                            <td>
+                                @*asp-route-id for Route Values => {controller=Home}/{action=Index}/{id?}*@
+                                <a asp-action="" asp-route-id="@item.Id">
+                                    <img src="~/image/Edit.png" style="width:25px; height:25px;" class="img-fluid" />
+                                 </a>
+
+                                <a asp-controller="MasterService" asp-action="DeleteSemester" asp-route-id="@item.Id">
+                                    <img src="~/image/Delete.png" style="width:25px; height:25px;" class="img-fluid" />
+                                </a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+
+        </div>
+    </div>
+</div>
+
 

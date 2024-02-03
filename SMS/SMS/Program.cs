@@ -21,7 +21,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 {
     options.LoginPath = "/Auth/Login"; // Set the login page URL
     options.LogoutPath = "/Auth/Logout"; // Set the logout page URL
-    options.ExpireTimeSpan = TimeSpan.FromMinutes(1); // 
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(10); // 
     options.AccessDeniedPath = "/Auth/AccessDenied/"; // Set AccessDenied URL if Deny the access of an User after log in
 });
 

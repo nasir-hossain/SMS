@@ -30,12 +30,12 @@
 }
 
 
-    .flex-item-3 ul {
-        position: absolute;
-        top: -999999px;
-        width: 200px;
-        padding: 10px;
-    }
+.flex-item-3 ul {
+    position: absolute;
+    top: -999999px;
+    width: 200px;
+    padding: 10px;
+}
 
 
 

@@ -1,4 +1,4 @@
-﻿
+﻿    
 * {
     margin: 0;
     padding: 0
@@ -13,7 +13,6 @@ ul {
 }
 
 ul li {
-    background-color: skyblue;
     margin-top: 1px;
     padding: 5px;
 }
@@ -29,7 +28,7 @@ background-color: lightsteelblue;
 
 ul li:hover a{
 color: black;
-font-weight: bold;
+font-weight: bolder;
 }
 
 h1, h2, h3, h4, h5, h6 {

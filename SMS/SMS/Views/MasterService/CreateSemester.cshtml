@@ -7,10 +7,7 @@
 }
 
 <div class="row">
-    <div class="col-md-2">
-    </div>
-
-    <div class="col-md-3">
+    <div class="col-md-3 ms-4">
         <form asp-controller="MasterService" asp-action="CreateSemester" method="post" Id="myForm" onsubmit="clearFormFields();">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -22,7 +19,7 @@
 
             <div class="form-group mt-2">
                 <input type="submit" value="Save" class="btn btn-primary" />
-                <a class="btn btn-success" asp-controller="MasterService" asp-action="GetSemester">Back to list</a>
+                <a class="btn btn-success ms-2" asp-controller="MasterService" asp-action="GetSemester">Back to list</a>
 
             </div>
         </form>

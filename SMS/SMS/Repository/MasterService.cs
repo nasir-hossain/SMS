@@ -20,7 +20,7 @@ namespace SMS.Repository
         {
             try
             {
-                var duplicate = await _context.TblSemester.Where(x => x.StrSemesterName.Trim().ToLower() == model.SemesterName.Trim().ToLower()).FirstOrDefaultAsync();
+                var duplicate = await _context.TblSemester.Where(x => x.StrSemesterName.Trim().ToLower() == model.SemesterName.Trim().ToLower() && x.IsActive == true).FirstOrDefaultAsync();
                 if (duplicate != null)
                 {
                     throw new Exception($"Semester: {model.SemesterName} already exists.");
@@ -42,7 +42,12 @@ namespace SMS.Repository
             }
             catch (Exception ex)
             {
-                throw ex;
+                //throw ex;
+                return new MessageHelper()
+                {
+                    Message = ex.Message,
+                    StatusCode = 500
+                };
             }
         }
 
@@ -82,7 +87,8 @@ namespace SMS.Repository
             }
             catch (Exception ex)
             {
-                throw ex;
+                //throw ex;
+                return new MessageHelper() { Message = ex.Message, StatusCode = 500 };
             }
         }
 
