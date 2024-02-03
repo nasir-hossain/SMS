@@ -16,6 +16,7 @@ namespace SMS.Repository
             _context = context;
         }
 
+        #region============ Semester ================
         public async Task<MessageHelper> CreateSemester(SemesterViewModel model)
         {
             try
@@ -92,8 +93,88 @@ namespace SMS.Repository
             }
         }
 
+        #endregion
 
 
+        #region============ Department ==============
+
+        public async Task<MessageHelper> CreateDepartment(DepartmentViewModel model)
+        {
+            try
+            {
+                var duplicate = await _context.TblDepartment.Where(x => x.StrDepartmentName.Trim().ToLower() == model.DepartmentName.Trim().ToLower() && x.IsActive == true).FirstOrDefaultAsync();
+                if (duplicate != null)
+                {
+                    throw new Exception($"Semester: {model.DepartmentName} already exists.");
+                }
+
+                TblDepartment Data = new TblDepartment
+                {
+                    StrDepartmentName = model.DepartmentName ?? "",
+                    IsActive = true
+                };
+
+                await _context.TblDepartment.AddAsync(Data);
+                await _context.SaveChangesAsync();
+
+                return new MessageHelper()
+                {
+                    Message = "Create Successfully.",
+                    StatusCode = 200
+                };
+            }
+            catch (Exception ex)
+            {
+                //throw ex;
+                return new MessageHelper()
+                {
+                    Message = ex.Message,
+                    StatusCode = 500
+                };
+            }
+        }
+
+        public async Task<List<DepartmentViewModel>> GetDepartment()
+        {
+            try
+            {
+                List<DepartmentViewModel> Data;
+                Data = await (from sem in _context.TblDepartment
+                              where sem.IsActive == true
+                              select new DepartmentViewModel
+                              {
+                                  Id = sem.IntId,
+                                  DepartmentName = sem.StrDepartmentName
+                              }).ToListAsync();
+                return Data;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<MessageHelper> DeleteDepartment(long Id)
+        {
+            try
+            {
+                var DataToDelete = await _context.TblDepartment.Where(x => x.IntId == Id && x.IsActive == true).FirstOrDefaultAsync();
+                if (DataToDelete != null)
+                {
+                    DataToDelete.IsActive = false;
+                    _context.TblDepartment.Update(DataToDelete);
+                    await _context.SaveChangesAsync();
+                }
+
+                return new MessageHelper() { Message = "Deleted Successfully", StatusCode = 200 };
+            }
+            catch (Exception ex)
+            {
+                //throw ex;
+                return new MessageHelper() { Message = ex.Message, StatusCode = 500 };
+            }
+        }
+        #endregion
 
     }
 }

@@ -10,9 +10,9 @@ namespace SMS.IRepository
         public Task<MessageHelper> DeleteSemester(long Id);
 
 
-        //public Task<MessageHelper> CreateDepartment(DepartmentViewModel model);
-        //public Task<List<DepartmentViewModel>> GetDepartment();
-        //public Task<MessageHelper> DeleteDepartment(long Id);
+        public Task<MessageHelper> CreateDepartment(DepartmentViewModel model);
+        public Task<List<DepartmentViewModel>> GetDepartment();
+        public Task<MessageHelper> DeleteDepartment(long Id);
 
 
     }

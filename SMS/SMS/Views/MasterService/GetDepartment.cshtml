@@ -1,14 +1,14 @@
-﻿@model IEnumerable<SMS.ViewModel.SemesterViewModel>
+﻿@model IEnumerable<SMS.ViewModel.DepartmentViewModel>
 
 @{
-    ViewData["Title"] = "Semester";
+    ViewData["Title"] = "Department";
     Layout = "_AdminLayout";
 }
 
 
 
 <p>
-    <a asp-controller="MasterService" asp-action="CreateSemester" class="btn btn-primary mt-3 ms-3">Create</a>
+    <a asp-controller="MasterService" asp-action="CreateDepartment" class="btn btn-primary mt-3 ms-3">Create</a>
 </p>
 
 @if (!string.IsNullOrEmpty(ViewBag.Msg))
@@ -25,7 +25,7 @@
                 <thead>
                     <tr>
                         <th>
-                            Semester Name
+                            Department Name
                         </th>
                         <th>
                             Action
@@ -37,15 +37,15 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.SemesterName)
+                                @Html.DisplayFor(modelItem => item.DepartmentName)
                             </td>
                             <td>
                                 @*asp-route-id for Route Values => {controller=Home}/{action=Index}/{id?}*@
                                 <a asp-action="" asp-route-id="@item.Id">
                                     <img src="~/image/Edit.png" style="width:25px; height:25px;" class="img-fluid" />
-                                 </a>
+                                </a>
 
-                                <a asp-controller="MasterService" asp-action="DeleteSemester" asp-route-id="@item.Id">
+                                <a asp-controller="MasterService" asp-action="DeleteDepartment" asp-route-id="@item.Id">
                                     <img src="~/image/Delete.png" style="width:25px; height:25px;" class="img-fluid" />
                                 </a>
                             </td>
@@ -58,5 +58,6 @@
         </div>
     </div>
 </div>
+
 
 

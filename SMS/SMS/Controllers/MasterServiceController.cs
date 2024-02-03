@@ -19,6 +19,9 @@ namespace SMS.Controllers
              _context = context;
         }
 
+
+        #region=============== Semester =================
+
         [HttpGet]
         public IActionResult CreateSemester()
         {
@@ -76,5 +79,72 @@ namespace SMS.Controllers
             TempData["msg"] = obj.Message;
             return RedirectToAction("GetSemester", "MasterService");
         }
+
+        #endregion
+
+
+
+        #region============== Department =================
+
+        [HttpGet]
+        public IActionResult CreateDepartment()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> CreateDepartment(DepartmentViewModel model)
+        {
+            var obj = await _IRepository.CreateDepartment(model);
+            TempData["msg"] = obj.Message;
+            return RedirectToAction("GetDepartment", "MasterService");
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetDepartment()
+        {
+            var Data = await _IRepository.GetDepartment();
+            ViewBag.Msg = TempData["msg"];
+            return View(Data);
+        }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteDepartment(long? Id) // asp-route-id er maddhome Id ta pabo
+        {
+            if (Id == null)
+            {
+                return NotFound();
+            }
+
+            var Data = await _context.TblDepartment
+                                     .Where(x => x.IntId == Id && x.IsActive == true)
+                                     .Select(x => new DepartmentViewModel
+                                     {
+                                         Id = x.IntId,
+                                         DepartmentName = x.StrDepartmentName
+                                     })
+                                     .FirstOrDefaultAsync();
+            if (Data == null)
+            {
+                return NotFound();
+            }
+
+            return View(Data);
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteDepartment(long Id)
+        {
+            var obj = await _IRepository.DeleteDepartment(Id);
+            TempData["msg"] = obj.Message;
+            return RedirectToAction("GetDepartment", "MasterService");
+        }
+
+        #endregion
     }
 }
