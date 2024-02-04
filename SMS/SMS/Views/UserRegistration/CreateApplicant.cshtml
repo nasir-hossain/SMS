@@ -11,6 +11,7 @@
         <h3 class="text-success">Registration</h3>
         <div class="d-flex flex-wrap">
 
+            @*Passing Data to object*@
             <div class="me-3 mt-3">
                  <label asp-for="@Model.HeaderModel.FirstName" class="control-label" style="font-size:15px">First Name</label>
                 <input asp-for="@Model.HeaderModel.FirstName" class="form-control mt-2" />
@@ -43,6 +44,13 @@
                 <label asp-for="@Model.HeaderModel.FirstName" class="control-label" style="font-size:15px">Date of Birth</label>
                 <input asp-for="@Model.HeaderModel.DoB" class="form-control mt-2" />
                 <span asp-validation-for="@Model.HeaderModel.DoB" class="text-danger" style="font-size:15px"></span>
+            </div>
+
+            @*--For passing data to List---*@
+             <div class="me-3 mt-3">
+                <label asp-for="@Model.AcademicModel[0].InstitutionName" class="control-label" style="font-size:15px">Date of Birth</label>
+                <input asp-for="@Model.AcademicModel[0].InstitutionName" class="form-control mt-2" />
+                <span asp-validation-for="@Model.AcademicModel[0].InstitutionName" class="text-danger" style="font-size:15px"></span>
             </div>
            
 
