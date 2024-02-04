@@ -6,25 +6,35 @@
 
 }
 
-<div class="row">
+<div class="row mt-5">
     <div class="col-md-3 ms-4">
-        <form asp-controller="MasterService" asp-action="CreateSemester" method="post" Id="myForm" onsubmit="clearFormFields();">
+        <form asp-controller="MasterService" asp-action="CreateSemester" method="post" class="bg-light p-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
             <div class="form-group mt-2">
-                <label asp-for="SemesterName" class="control-label">Semester Name</label>
+                <label asp-for="SemesterName" class="control-label" style="font-size:15px">Semester Name</label>
                 <input asp-for="SemesterName" class="form-control mt-2" />
-                <span asp-validation-for="SemesterName" class="text-danger"></span>
+                <span asp-validation-for="SemesterName" class="text-danger" style="font-size:15px"></span>
+            </div>
+            <div class="form-group mt-2">
+                <label asp-for="ApplicationDeadline" class="control-label" style="font-size:15px">Application Deadline</label>
+                <input asp-for="ApplicationDeadline" class="form-control mt-2" />
+                <span asp-validation-for="ApplicationDeadline" class="text-danger" style="font-size:15px"></span>
             </div>
 
             <div class="form-group mt-3">
                 <input type="submit" value="Save" class="btn btn-primary" />
                 <a class="btn btn-success ms-2" asp-controller="MasterService" asp-action="GetSemester">Back to list</a>
-
             </div>
         </form>
     </div>
 </div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
 
 
 

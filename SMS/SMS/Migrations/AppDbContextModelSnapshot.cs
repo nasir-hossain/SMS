@@ -22,6 +22,136 @@ namespace SMS.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("SMS.Models.TblApplicantAcademicInfo", b =>
+                {
+                    b.Property<long>("IntId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("IntId"), 1L, 1);
+
+                    b.Property<long>("IntApplicantHeaderId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("IntPassingYear")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal>("NumResult")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("StrBoard")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StrInstitutionName")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<string>("StrRegistrationNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StrScale")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("IntId");
+
+                    b.ToTable("TblApplicantAcademicInfo");
+                });
+
+            modelBuilder.Entity("SMS.Models.TblApplicantInfoHeader", b =>
+                {
+                    b.Property<long>("IntId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("IntId"), 1L, 1);
+
+                    b.Property<DateTime?>("DteActionDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DteDoB")
+                        .HasColumnType("datetime2");
+
+                    b.Property<long>("IntFirstDepartmentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("IntOptionalDepartmentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("IntSemesterId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool?>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsClose")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsForPostGraduate")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsPassed")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("NumTotalMark")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("StrAddress")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("StrAttachment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StrContactNumber")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("StrEmail")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("StrFirstName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("StrFullName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("StrGender")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("StrLastName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("StrNationality")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("StrRegistrationCode")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("IntId");
+
+                    b.ToTable("TblApplicantInfoHeader");
+                });
+
             modelBuilder.Entity("SMS.Models.TblDepartment", b =>
                 {
                     b.Property<long>("IntId")
@@ -35,7 +165,8 @@ namespace SMS.Migrations
 
                     b.Property<string>("StrDepartmentName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.HasKey("IntId");
 
@@ -70,12 +201,19 @@ namespace SMS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("IntId"), 1L, 1);
 
+                    b.Property<DateTime?>("DteApplicationDeadLine")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DteLastActionDateTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
                     b.Property<string>("StrSemesterName")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
 
                     b.HasKey("IntId");
 

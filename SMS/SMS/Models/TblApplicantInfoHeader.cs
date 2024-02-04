@@ -5,28 +5,28 @@ namespace SMS.Models
     public class TblApplicantInfoHeader
     {
         [Key]
-        [Required]
         public long IntId { get; set; }
         [Required]
-        [StringLength(150, MinimumLength =1, ErrorMessage = "The field must be between 3 and 150 characters.")]
+        [StringLength(150, MinimumLength =1, ErrorMessage = "The field must be between 1 and 150 characters.")]
         public string StrRegistrationCode { get; set; }
 
         [Required]
-        [StringLength(150, MinimumLength = 1, ErrorMessage = "The field must be between 3 and 150 characters.")]
+        [StringLength(150, MinimumLength = 1, ErrorMessage = "The field must be between 1 and 150 characters.")]
         public string StrFirstName { get; set; }
 
         [Required]
-        [StringLength(150, MinimumLength = 1, ErrorMessage = "The field must be between 3 and 150 characters.")]
+        [StringLength(150, MinimumLength = 1, ErrorMessage = "The field must be between 1 and 150 characters.")]
         public string StrLastName { get; set; }
 
         [Required]
-        [StringLength(150, MinimumLength = 1, ErrorMessage = "The field must be between 3 and 150 characters.")]
+        [StringLength(150, MinimumLength = 1, ErrorMessage = "The field must be between 1 and 150 characters.")]
         public string StrFullName { get; set; }
 
         [Required]
         public DateTime DteDoB { get; set; }
 
         [Required]
+        [StringLength(150, MinimumLength = 1, ErrorMessage = "The field must be between 1 and 150 characters.")]
         public string StrGender  { get; set; }
 
         [Required]
@@ -37,34 +37,30 @@ namespace SMS.Models
         public long IntSemesterId { get; set; }
 
         [Required]
+        [StringLength(150, MinimumLength = 1, ErrorMessage = "The field must be between 1 and 150 characters.")]
         public string StrEmail { get; set; }
 
         [Required]
+        [StringLength(150, MinimumLength = 1, ErrorMessage = "The field must be between 1 and 150 characters.")]
         public string StrContactNumber { get; set; }
 
         [Required]
-        public string StrFatherName { get; set; }
+        [StringLength(150, MinimumLength = 1, ErrorMessage = "The field must be between 1 and 150 characters.")]
 
-        [Required]
-        public string StrFatherEmail { get; set; }
-
-        [Required]
-        public string StrFatherContact { get; set; }
-
-        [Required]
         public string StrAddress { get; set; }
 
         [Required]
-        public string Nationality { get; set; }
-
+        [StringLength(150, MinimumLength = 1, ErrorMessage = "The field must be between 1 and 150 characters.")]
+        public string StrNationality { get; set; }
 
         public DateTime? DteActionDateTime { get; set; }
 
         public string? StrAttachment { get; set; } = string.Empty;
-        public decimal? NumTotakMark { get; set; } = 0;  
+        public decimal? NumTotalMark { get; set; } = 0;  
         public bool? IsPassed { get; set; }   = false;
         public bool? IsForPostGraduate { get; set; } = false;
         public bool? IsActive { get; set; } = false;
+        public bool? IsClose { get; set; } = false;
 
     }
 }

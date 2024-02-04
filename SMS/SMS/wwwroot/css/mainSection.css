@@ -44,16 +44,16 @@ p {
   position:fixed;
   overflow:scroll;
 
-  
 }
 
 
-/*Login*/
 
+
+/*Login*/
 .login-container {
     width: 500px;
     margin: 0 auto;
-    margin-top:100px;
+    margin-top: 100px;
     padding: 20px;
     border: 1px solid #ccc;
     background-color: #f4f4f4;

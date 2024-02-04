@@ -29,6 +29,8 @@ namespace SMS.Repository
                 TblSemester Data = new TblSemester
                 {
                     StrSemesterName = model.SemesterName,
+                    DteApplicationDeadLine=model.ApplicationDeadline,
+                    DteLastActionDateTime = DateTime.Now,
                     IsActive = true
                 };
 

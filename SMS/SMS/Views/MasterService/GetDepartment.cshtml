@@ -21,13 +21,13 @@
         <div class="col-8">
 
 
-            <table class="table table-responsive-sm ms-3">
+            <table class="table table-responsive-sm border  ms-3">
                 <thead>
                     <tr>
                         <th>
-                            Department Name
+                            Department 
                         </th>
-                        <th>
+                        <th class="text-end">
                             Action
                         </th>
                     </tr>
@@ -39,7 +39,7 @@
                             <td>
                                 @Html.DisplayFor(modelItem => item.DepartmentName)
                             </td>
-                            <td>
+                            <td class="text-end">
                                 @*asp-route-id for Route Values => {controller=Home}/{action=Index}/{id?}*@
                                 <a asp-action="" asp-route-id="@item.Id">
                                     <img src="~/image/Edit.png" style="width:25px; height:25px;" class="img-fluid" />

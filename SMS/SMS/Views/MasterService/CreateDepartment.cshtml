@@ -6,15 +6,15 @@
 
 }
 
-<div class="row">
+<div class="row mt-5">
     <div class="col-md-3 ms-4">
-        <form asp-controller="MasterService" asp-action="CreateDepartment" method="post" Id="myForm" onsubmit="clearFormFields();">
+        <form asp-controller="MasterService" asp-action="CreateDepartment" method="post" class="bg-light p-4">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group mt-2">
-                <label asp-for="DepartmentName" class="control-label">Department Name</label>
+                <label asp-for="DepartmentName" class="control-label" style="font-size:15px">Department Name</label>
                 <input asp-for="DepartmentName" class="form-control mt-2" />
-                <span asp-validation-for="DepartmentName" class="text-danger"></span>
+                <span asp-validation-for="DepartmentName" class="text-danger" style="font-size:15px"></span>
             </div>
 
             <div class="form-group mt-3">
@@ -25,4 +25,10 @@
         </form>
     </div>
 </div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
 
