@@ -29,7 +29,7 @@ namespace SMS.Repository
                     StrFirstName = Head.FirstName,
                     StrLastName = Head.LastName,
                     StrFullName = Head.FullName,
-                    DteDoB = Head.DoB,
+                    DteDoB = Head.DoB.Date,
                     StrGender = Head.Gender,
                     IntFirstDepartmentId = Head.FirstDepartmentId,
                     IntOptionalDepartmentId = Head.OptionalDepartmentId,
@@ -50,20 +50,20 @@ namespace SMS.Repository
                 await _context.TblApplicantInfoHeader.AddAsync(head);
                 await _context.SaveChangesAsync();
 
-                AddList = Academic.Select(x => new TblApplicantAcademicInfo
-                {
-                    IntApplicantHeaderId = head.IntId,
-                    StrInstitutionName = x.InstitutionName,
-                    StrBoard = x.Board,
-                    StrRegistrationNumber = x.RegistrationNumber,
-                    IntPassingYear = x.PassingYear,
-                    NumResult = x.Result,
-                    StrScale = x.Scale,
-                    IsActive = true
-                }).ToList();
+                //AddList = Academic.Select(x => new TblApplicantAcademicInfo
+                //{
+                //    IntApplicantHeaderId = head.IntId,
+                //    StrInstitutionName = x.InstitutionName,
+                //    StrBoard = x.Board,
+                //    StrRegistrationNumber = x.RegistrationNumber,
+                //    IntPassingYear = x.PassingYear,
+                //    NumResult = x.Result,
+                //    StrScale = x.Scale,
+                //    IsActive = true
+                //}).ToList();
 
-                await _context.TblApplicantAcademicInfo.AddRangeAsync(AddList);
-                await _context.SaveChangesAsync();
+                //await _context.TblApplicantAcademicInfo.AddRangeAsync(AddList);
+                //await _context.SaveChangesAsync();
 
                 return new MessageHelper
                 {
