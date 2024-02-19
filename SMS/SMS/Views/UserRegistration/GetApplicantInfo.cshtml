@@ -9,9 +9,9 @@
     <h4 class="text-danger mt-2 ms-3">Applicant Information</h4>
     <form  class=" bg-light p-3 ms-3 mt-3">
         <div class="row">
-            <label for="SelectedId" class="mb-2" style="font-size:15px;">Department</label>
+            <label for="SelectedId" class="mb-2 text-success" style="font-size:15px;">Department</label>
             <div class="col-2">
-                <select id="SelectedId" class="form-control">
+                <select id="SelectedId" class="form-select">
                     <option value="0">All</option>
 
                     @foreach (var option in ViewBag.SelectedList as List<SelectListItem>)
@@ -37,7 +37,7 @@
     var btn = document.getElementById("btn");
 
     btn.addEventListener("click", function (e) {
-        e.preventDefault();
+        e.preventDefault(); //used to prevent the default action of an event.
 
         window.location.href = `/UserRegistration/GetApplicantInfo?departmentId=${encodeURIComponent(option.value)}`; //There will be No Sapces
     });
