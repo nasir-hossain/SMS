@@ -131,7 +131,8 @@ namespace SMS.Controllers
                 };
                 ViewModel.Year.Add(DDLData);
             });
-
+             
+            //Passing Data from Controller To View By Model Object
             return View(ViewModel);
 
         }
@@ -253,5 +254,28 @@ namespace SMS.Controllers
             await _IRepository.CreateApplicant(model);
             return View(ViewModel);
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetApplicantInfo(long? departmentId)
+        {
+            var SelectedList = new List<SelectListItem>();
+            var departmentList = await _masterService.GetDepartment();
+
+            departmentList.ForEach(x =>
+            {
+                SelectListItem DDLData = new SelectListItem()
+                {
+                    Text = x.DepartmentName,
+                    Value = x.Id.ToString(),
+                };
+
+                SelectedList.Add(DDLData);
+            });
+
+            ViewBag.SelectedList = SelectedList;
+            return View();
+        }
+
     }
 }

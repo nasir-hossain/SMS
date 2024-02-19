@@ -1,0 +1,46 @@
+﻿@model SMS.ViewModel.ApplicantInfo.GetApplicantInfoViewModel;
+
+@{
+    ViewData["Title"] = "GetApplicant";
+    Layout = "_AdminLayout";
+}
+
+<div>
+    <h4 class="text-danger mt-2 ms-3">Applicant Information</h4>
+    <form  class=" bg-light p-3 ms-3 mt-3">
+        <div class="row">
+            <label for="SelectedId" class="mb-2" style="font-size:15px;">Department</label>
+            <div class="col-2">
+                <select id="SelectedId" class="form-control">
+                    <option value="0">All</option>
+
+                    @foreach (var option in ViewBag.SelectedList as List<SelectListItem>)
+                    {
+                        <option value="@option.Value">@option.Text</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-1">
+                <button class="btn btn-primary rounded form-control" id="btn">View</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+<script>
+
+    var option = document.getElementById("SelectedId");
+    var btn = document.getElementById("btn");
+
+    btn.addEventListener("click", function (e) {
+        e.preventDefault();
+
+        window.location.href = `/UserRegistration/GetApplicantInfo?departmentId=${encodeURIComponent(option.value)}`; //There will be No Sapces
+    });
+
+</script>
+

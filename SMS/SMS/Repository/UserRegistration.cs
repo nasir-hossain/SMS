@@ -44,7 +44,7 @@ namespace SMS.Repository
                     NumTotalMark = 0,
                     IsPassed = false,
                     IsForPostGraduate = false,
-                    IsActive = false,
+                    IsActive = true,
                     IsClose = false
                 };
 
@@ -81,5 +81,17 @@ namespace SMS.Repository
                 };
             }
         }
+
+        //public async Task<ApplicantViewModel>GetApplicantInfo(long departmentId)
+        //{
+        //    try
+        //    {
+        //        var PersonalData = await (from )
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
     }
 }
