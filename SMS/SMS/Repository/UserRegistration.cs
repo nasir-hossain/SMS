@@ -38,6 +38,7 @@ namespace SMS.Repository
                     StrContactNumber = Head.ContactNumber,
                     StrAddress = Head.Address,
                     StrNationality = Head.Nationality,
+                    StrReligion = Head.Religion,
                     DteActionDateTime = DateTime.Now,
                     StrAttachment = "",
                     NumTotalMark = 0,
@@ -50,20 +51,20 @@ namespace SMS.Repository
                 await _context.TblApplicantInfoHeader.AddAsync(head);
                 await _context.SaveChangesAsync();
 
-                //AddList = Academic.Select(x => new TblApplicantAcademicInfo
-                //{
-                //    IntApplicantHeaderId = head.IntId,
-                //    StrInstitutionName = x.InstitutionName,
-                //    StrBoard = x.Board,
-                //    StrRegistrationNumber = x.RegistrationNumber,
-                //    IntPassingYear = x.PassingYear,
-                //    NumResult = x.Result,
-                //    StrScale = x.Scale,
-                //    IsActive = true
-                //}).ToList();
+                AddList = Academic.Select(x => new TblApplicantAcademicInfo
+                {
+                    IntApplicantHeaderId = head.IntId,
+                    StrInstitutionName = x.InstitutionName,
+                    StrBoard = x.Board,
+                    StrRegistrationNumber = x.RegistrationNumber,
+                    IntPassingYear = x.PassingYear,
+                    NumResult = x.Result,
+                    StrScale = x.Scale,
+                    IsActive = true
+                }).ToList();
 
-                //await _context.TblApplicantAcademicInfo.AddRangeAsync(AddList);
-                //await _context.SaveChangesAsync();
+                await _context.TblApplicantAcademicInfo.AddRangeAsync(AddList);
+                await _context.SaveChangesAsync();
 
                 return new MessageHelper
                 {

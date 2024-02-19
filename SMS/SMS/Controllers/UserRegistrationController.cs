@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SMS.DBContext;
+using SMS.Helper;
 using SMS.IRepository;
 using SMS.ViewModel;
 using SMS.ViewModel.ApplicantInfo;
@@ -23,24 +24,38 @@ namespace SMS.Controllers
         [HttpGet]
         public async Task<IActionResult> CreateApplicant()
         {
-            List<DepartmentViewModel> departmentList = new List<DepartmentViewModel>();
-            List<SemesterViewModel> SemesterList = new List<SemesterViewModel>();
+
+
             ApplicantViewModel ViewModel = new ApplicantViewModel();
+            ViewModel.DepartmentModel = new List<SelectListItem>();
             ViewModel.SemesterModel = new List<SelectListItem>();
+            ViewModel.Nationality = new List<SelectListItem>();
+            ViewModel.Religion = new List<SelectListItem>();
+            ViewModel.School = new List<SelectListItem>();
+            ViewModel.College = new List<SelectListItem>();
+            ViewModel.Board = new List<SelectListItem>();
+            ViewModel.Year = new List<SelectListItem>();
 
-            departmentList = await _masterService.GetDepartment();
-            SemesterList = await _masterService.GetSemester();
+            var departmentList = await _masterService.GetDepartment();
+            var SemesterList = await _masterService.GetSemester();
+            var Nationality= DDLService.GetNationality();
+            var Religion = DDLService.GetReligion();
+            var School = DDLService.GetSchool();
+            var College = DDLService.GetCollege();
+            var Board = DDLService.GetEducationBoard();
+            var Year = DDLService.GetYear();
+            
 
-            //departmentList.ForEach(x =>
-            //{
-            //    SelectListItem DDLData = new SelectListItem()
-            //    {
-            //        Text = x.DepartmentName,
-            //        Value = x.Id.ToString(),
-            //    };
+            departmentList.ForEach(x =>
+            {
+                SelectListItem DDLData = new SelectListItem()
+                {
+                    Text = x.DepartmentName,
+                    Value = x.Id.ToString(),
+                };
 
-            //    model.DepartmentModel.Add(DDLData);
-            //});
+                ViewModel.DepartmentModel.Add(DDLData);
+            });
 
 
             SemesterList.ForEach(x =>
@@ -55,32 +70,109 @@ namespace SMS.Controllers
             });
 
 
+            Nationality.ForEach(x =>
+            {
+                SelectListItem DDLData = new SelectListItem()
+                {
+                    Text = x.Name,
+                   // Value = x.Id.ToString(),
+                };
+                ViewModel.Nationality.Add(DDLData);
+            });
+
+            Religion.ForEach(x =>
+            {
+                SelectListItem DDLData = new SelectListItem()
+                {
+                    Text = x.Name,
+                   // Value = x.Id.ToString(),
+                };
+                ViewModel.Religion.Add(DDLData);
+            });
+
+            School.ForEach(x =>
+            {
+                SelectListItem DDLData = new SelectListItem()
+                {
+                    Text = x.Name,
+                   // Value = x.Id.ToString(),
+                };
+                ViewModel.School.Add(DDLData);
+            });
+
+            College.ForEach(x =>
+            {
+                SelectListItem DDLData = new SelectListItem()
+                {
+                    Text = x.Name,
+                   // Value = x.Id.ToString(),
+                };
+                ViewModel.College.Add(DDLData);
+            });
+
+
+            Board.ForEach(x =>
+            {
+                SelectListItem DDLData = new SelectListItem()
+                {
+                    Text = x.Name,
+                  //  Value = x.Id.ToString(),
+                };
+                ViewModel.Board.Add(DDLData);
+            });
+
+
+            Year.ForEach(x =>
+            {
+                SelectListItem DDLData = new SelectListItem()
+                {
+                    Text = x.Name,
+                   // Value = x.Id.ToString(),
+                };
+                ViewModel.Year.Add(DDLData);
+            });
+
             return View(ViewModel);
+
         }
 
 
         [HttpPost]
         public async Task<IActionResult> CreateApplicant(ApplicantViewModel model)
         {
+            // Jehetu Post Method a View Return korechi taile DDL er Jonno Data Pathate hobe .. Ta na hole Null Exception Dibe.
 
-            List<DepartmentViewModel> departmentList = new List<DepartmentViewModel>();
-            List<SemesterViewModel> SemesterList = new List<SemesterViewModel>();
+
             ApplicantViewModel ViewModel = new ApplicantViewModel();
+            ViewModel.DepartmentModel = new List<SelectListItem>();
             ViewModel.SemesterModel = new List<SelectListItem>();
+            ViewModel.Nationality = new List<SelectListItem>();
+            ViewModel.Religion = new List<SelectListItem>();
+            ViewModel.School = new List<SelectListItem>();
+            ViewModel.College = new List<SelectListItem>();
+            ViewModel.Board = new List<SelectListItem>();
+            ViewModel.Year = new List<SelectListItem>();
 
-            departmentList = await _masterService.GetDepartment();
-            SemesterList = await _masterService.GetSemester();
+            var departmentList = await _masterService.GetDepartment();
+            var SemesterList = await _masterService.GetSemester();
+            var Nationality = DDLService.GetNationality();
+            var Religion = DDLService.GetReligion();
+            var School = DDLService.GetSchool();
+            var College = DDLService.GetCollege();
+            var Board = DDLService.GetEducationBoard();
+            var Year = DDLService.GetYear();
 
-            //departmentList.ForEach(x =>
-            //{
-            //    SelectListItem DDLData = new SelectListItem()
-            //    {
-            //        Text = x.DepartmentName,
-            //        Value = x.Id.ToString(),
-            //    };
 
-            //    model.DepartmentModel.Add(DDLData);
-            //});
+            departmentList.ForEach(x =>
+            {
+                SelectListItem DDLData = new SelectListItem()
+                {
+                    Text = x.DepartmentName,
+                    Value = x.Id.ToString(),
+                };
+
+                ViewModel.DepartmentModel.Add(DDLData);
+            });
 
 
             SemesterList.ForEach(x =>
@@ -92,6 +184,69 @@ namespace SMS.Controllers
                 };
 
                 ViewModel.SemesterModel.Add(DDLData);
+            });
+
+
+            Nationality.ForEach(x =>
+            {
+                SelectListItem DDLData = new SelectListItem()
+                {
+                    Text = x.Name,
+                    //Value = x.Id.ToString(),
+                };
+                ViewModel.Nationality.Add(DDLData);
+            });
+
+            Religion.ForEach(x =>
+            {
+                SelectListItem DDLData = new SelectListItem()
+                {
+                    Text = x.Name,
+                   // Value = x.Id.ToString(),
+                };
+                ViewModel.Religion.Add(DDLData);
+            });
+
+            School.ForEach(x =>
+            {
+                SelectListItem DDLData = new SelectListItem()
+                {
+                    Text = x.Name,
+                   // Value = x.Id.ToString(),
+                };
+                ViewModel.School.Add(DDLData);
+            });
+
+            College.ForEach(x =>
+            {
+                SelectListItem DDLData = new SelectListItem()
+                {
+                    Text = x.Name,
+                   // Value = x.Id.ToString(),
+                };
+                ViewModel.College.Add(DDLData);
+            });
+
+
+            Board.ForEach(x =>
+            {
+                SelectListItem DDLData = new SelectListItem()
+                {
+                    Text = x.Name,
+                  //  Value = x.Id.ToString(),
+                };
+                ViewModel.Board.Add(DDLData);
+            });
+
+
+            Year.ForEach(x =>
+            {
+                SelectListItem DDLData = new SelectListItem()
+                {
+                    Text = x.Name,
+                   // Value = x.Id.ToString(),
+                };
+                ViewModel.Year.Add(DDLData);
             });
 
 

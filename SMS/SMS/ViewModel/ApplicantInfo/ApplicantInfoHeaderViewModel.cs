@@ -51,6 +51,11 @@ namespace SMS.ViewModel.ApplicantInfo
         [Required]
         [StringLength(150, MinimumLength = 1, ErrorMessage = "The field must be between 1 and 150 characters.")]
         public string Nationality { get; set; }
+
+        [Required]
+        [StringLength(150, MinimumLength = 1, ErrorMessage = "The field must be between 1 and 150 characters.")]
+        public string Religion { get; set; }
+
         public string? Attachment { get; set; } = string.Empty;
     }
 }
