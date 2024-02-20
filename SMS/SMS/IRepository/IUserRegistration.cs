@@ -6,5 +6,6 @@ namespace SMS.IRepository
     public interface IUserRegistration
     {
         public Task<MessageHelper> CreateApplicant(ApplicantViewModel model);
+        public Task<List<GetApplicantHeaderInfoViewModel>> GetApplicantInfo(long? departmentId);
     }
 }

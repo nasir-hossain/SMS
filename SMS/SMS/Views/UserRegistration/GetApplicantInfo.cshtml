@@ -1,4 +1,4 @@
-﻿@model SMS.ViewModel.ApplicantInfo.GetApplicantInfoViewModel;
+﻿@model IEnumerable<SMS.ViewModel.ApplicantInfo.GetApplicantHeaderInfoViewModel>;
 
 @{
     ViewData["Title"] = "GetApplicant";
@@ -7,7 +7,7 @@
 
 <div>
     <h4 class="text-danger mt-2 ms-3">Applicant Information</h4>
-    <form  class=" bg-light p-3 ms-3 mt-3">
+    <form class=" bg-light p-3 ms-3 mt-3">
         <div class="row">
             <label for="SelectedId" class="mb-2 text-success" style="font-size:15px;">Department</label>
             <div class="col-2">
@@ -27,6 +27,126 @@
         </div>
     </form>
 </div>
+
+
+
+<hr>
+
+
+<table class="table table-responsive-sm border table-bordered  ms-3" style="font-size:12px; ">
+    <thead class="fw-normal">
+        <tr>
+            <th>
+                Semester Name
+            </th>
+            <th>
+                Full Name
+            </th>
+            <th>
+                Registration Code
+            </th>
+            <th>
+                Department
+            </th>
+            <th>
+                Department(Optional)
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Contact No
+            </th>
+            <th>
+                Address
+            </th>
+            <th>
+                Gender
+            </th>
+            <th>
+                DoB
+            </th>
+            <th>
+                Nationality
+            </th>
+            <th>
+                Religion
+            </th>
+            <th>
+                View
+            </th>
+            <th>
+                Approve
+            </th>
+        </tr>
+    </thead>
+
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <tbody>
+
+                <tr>
+                    <td>
+                        @item.SemesterName
+                    </td>
+                    <td>
+                        @item.FullName
+                    </td>
+                    <td>
+                        @item.RegistrationCode
+                    </td>
+                    <td>
+                        @item.FirstDepartmentName
+                    </td>
+                    <td>
+                        @item.OptionalDepartmentName
+                    </td>
+                    <td>
+                        @item.Email
+                    </td>
+                    <td>
+                        @item.ContactNumber
+                    </td>
+                    <td>
+                        @item.Address
+                    </td>
+                    <td>
+                        @item.Gender
+                    </td>
+                    <td>
+                        @item.DoB
+                    </td>
+                    <td>
+                        @item.Nationality
+                    </td>
+                    <td>
+                        @item.Religion
+                    </td>
+
+
+
+                    <td class="text-end">
+                        @*asp-route-id for Route Values => {controller=Home}/{action=Index}/{id?} *@
+                        <a asp-action="" asp-route-id="@item.Id">
+                            <img src="~/image/Edit.png" style="width:25px; height:25px;" class="img-fluid" />
+                        </a>
+                    </td>
+                    <td>
+
+                        <a asp-controller="MasterService" asp-action="DeleteDepartment" asp-route-id="@item.Id">
+                            <img src="~/image/Delete.png" style="width:25px; height:25px;" class="img-fluid" />
+                        </a>
+                    </td>
+            </tbody>
+        }
+
+    }
+
+</table>
+
+
 
 
 

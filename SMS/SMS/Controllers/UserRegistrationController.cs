@@ -274,7 +274,10 @@ namespace SMS.Controllers
             });
 
             ViewBag.SelectedList = SelectedList;
-            return View();
+            //return View(new GetApplicantInfoViewModel());
+            var data = await _IRepository.GetApplicantInfo(departmentId);
+            return View(data);
+
         }
 
     }

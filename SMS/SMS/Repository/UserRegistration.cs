@@ -1,4 +1,6 @@
-﻿using SMS.DBContext;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.EntityFrameworkCore;
+using SMS.DBContext;
 using SMS.Helper;
 using SMS.IRepository;
 using SMS.Models;
@@ -82,16 +84,38 @@ namespace SMS.Repository
             }
         }
 
-        //public async Task<ApplicantViewModel>GetApplicantInfo(long departmentId)
-        //{
-        //    try
-        //    {
-        //        var PersonalData = await (from )
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+        public async Task<List<GetApplicantHeaderInfoViewModel>> GetApplicantInfo(long? departmentId)
+        {
+            try
+            {
+                var PersonalData = await (from appInfo in _context.TblApplicantInfoHeader
+                                          join dept in _context.TblDepartment on appInfo.IntFirstDepartmentId equals dept.IntId
+                                          join dept2 in _context.TblDepartment on appInfo.IntOptionalDepartmentId equals dept2.IntId
+                                          join sem in _context.TblSemester on appInfo.IntSemesterId equals sem.IntId
+                                          where (appInfo.IntFirstDepartmentId == departmentId || departmentId == 0)
+                                          && appInfo.IsActive == true && dept.IsActive == true && sem.IsActive == true && appInfo.IsClose == false
+                                          select new GetApplicantHeaderInfoViewModel
+                                          {
+                                              SemesterName = sem.StrSemesterName,
+                                              FullName = appInfo.StrFullName,
+                                              FirstDepartmentName =dept.StrDepartmentName,
+                                              OptionalDepartmentName =dept2.StrDepartmentName,
+                                              Email =appInfo.StrEmail,
+                                              ContactNumber = appInfo.StrContactNumber,
+                                              Address = appInfo.StrAddress,
+                                              Gender = appInfo.StrGender,
+                                              Nationality = appInfo.StrNationality,
+                                              DoB = appInfo.DteDoB.Date,
+                                              RegistrationCode = appInfo.StrRegistrationCode,
+                                              Religion = appInfo.StrReligion
+                                          }).ToListAsync();
+
+                return PersonalData;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
