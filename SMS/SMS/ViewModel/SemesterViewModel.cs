@@ -11,5 +11,7 @@ namespace SMS.ViewModel
         public string SemesterName { get; set; }
 
         public DateTime? ApplicationDeadline { get; set; }
+        public DateTime? AddmissionDate { get; set; }
+        public bool? IsRunning { get; set; }
     }
 }

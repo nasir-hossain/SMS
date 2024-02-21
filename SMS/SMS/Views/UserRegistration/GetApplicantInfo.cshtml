@@ -138,19 +138,23 @@
                         </a>
                     </td>
 
-                    @if(item.IsApprove == true)
+                    @if(item.IsApprove == true )
                     {
                         <td>
                             Approved
                         </td>
                     }
-                    else
+                    else if(item.IsApprove == false && item.IsClose== false)
                     {
                         <td>
-                            <a asp-controller="MasterService" asp-action="DeleteDepartment" asp-route-id="@item.Id">
+                            <a asp-controller="UserRegistration" asp-action="ApproveApplicant" asp-route-id="@item.Id">
                                 <img src="~/image/Approve.jpg" style="width:25px; height:25px;" class="img-fluid" />
                             </a>
                         </td>
+                    }
+                    else
+                    {
+                        <td></td>
                     }
 
                     @if(item.IsClose == true)
@@ -159,14 +163,19 @@
                             Rejected
                         </td>
                     }
-                    else
+
+                    else if(item.IsApprove == false && item.IsClose == false)
                     {
                         <td>
 
-                            <a asp-controller="MasterService" asp-action="DeleteDepartment" asp-route-id="@item.Id">
+                            <a asp-controller="UserRegistration" asp-action="" asp-route-id="@item.Id">
                                 <img src="~/image/reject.jpg" style="width:25px; height:25px;" class="img-fluid" />
                             </a>
                         </td>
+                    }
+                    else
+                    {
+                        <td></td>
                     }
                    
                    

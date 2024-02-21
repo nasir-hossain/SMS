@@ -68,20 +68,20 @@ namespace SMS.Controllers
                     IsPersistent = true,
                 };
 
-                var principalClaimsBeforeSignIn = principal.Claims.ToList();
-                foreach (var claim in principalClaimsBeforeSignIn)
-                {
-                    Console.WriteLine($"Type: {claim.Type}, Value: {claim.Value}");
-                }
+                //var principalClaimsBeforeSignIn = principal.Claims.ToList();
+                //foreach (var claim in principalClaimsBeforeSignIn)
+                //{
+                //    Console.WriteLine($"Type: {claim.Type}, Value: {claim.Value}");
+                //}
 
                 await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal, authProperties);
 
 
-                var principalClaimsAfterSignIn = HttpContext.User.Claims.ToList();
-                foreach (var claim in principalClaimsAfterSignIn)
-                {
-                    Console.WriteLine($"Type: {claim.Type}, Value: {claim.Value}");
-                }
+                //var principalClaimsAfterSignIn = HttpContext.User.Claims.ToList();
+                //foreach (var claim in principalClaimsAfterSignIn)
+                //{
+                //    Console.WriteLine($"Type: {claim.Type}, Value: {claim.Value}");
+                //}
 
 
                 // Je page er jonno Http Request korechi sei URL er jonno (URL a kono ekta Req korle./ menu theke req korle)
@@ -93,7 +93,6 @@ namespace SMS.Controllers
 
                 else //Access Denied hoile Auth/Login a direct hoy (Configure theika). tokhon return URL ta null niya ase.
                 {
-
                     return RedirectToAction("Index", "Home");
                 }
             }

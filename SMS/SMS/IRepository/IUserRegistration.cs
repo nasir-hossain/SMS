@@ -7,5 +7,6 @@ namespace SMS.IRepository
     {
         public Task<MessageHelper> CreateApplicant(ApplicantViewModel model);
         public Task<List<GetApplicantHeaderInfoViewModel>> GetApplicantInfo(long? departmentId);
+        public Task<MessageHelper> ApproveApplicant(long Id);
     }
 }

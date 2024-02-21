@@ -6,29 +6,42 @@
 }
 
 
-
-<p>
-    <a asp-controller="MasterService" asp-action="CreateSemester" class="btn btn-primary mt-3 ms-3">Create</a>
-</p>
-
-@if (!string.IsNullOrEmpty(ViewBag.Msg))
-{
-    <h5 class="text-danger">@ViewBag.Msg</h5>
-}
-
 <div>
     <div class="row">
         <div class="col-8">
+            <h3 class="alert alert-success ms-3 mt-3">Semester Info</h3>
 
+            <div class="d-flex justify-content-start ms-3">
+                @if (!string.IsNullOrEmpty(ViewBag.Msg))
+                {
+                    <h5 class="text-danger">@ViewBag.Msg</h5>
+                }
+            </div>
 
-            <table class="table table-responsive-sm border ms-3" style="font-size:15px;">
+            <div class="d-flex justify-content-end">
+                <a asp-controller="MasterService" asp-action="CreateSemester" class="btn btn-primary ">Create</a>
+            </div>
+
+            <table class="table table-responsive-sm border table-bordered ms-3 mt-3" style="font-size:15px;">
                 <thead>
                     <tr>
                         <th>
                             Semester
                         </th>
-                        <th class="text-end">
-                            Action
+                        <th>
+                            Application DeadLine
+                        </th> 
+                        <th>
+                            AddmissionDate
+                        </th>
+                        <th>
+                            Edit
+                        </th>
+                        <th>
+                            Delete
+                        </th>
+                        <th>
+                            Close
                         </th>
                     </tr>
                 </thead>
@@ -37,18 +50,41 @@
                     {
                         <tr>
                             <td>
-                                @Html.DisplayFor(modelItem => item.SemesterName)
+                                @item.SemesterName
+                            </td> 
+                            <td>
+                                @item.ApplicationDeadline
+                            </td> 
+                            <td>
+                                @item.AddmissionDate
                             </td>
-                            <td class="text-end">
+
+                            <td>
                                 @*asp-route-id for Route Values => {controller=Home}/{action=Index}/{id?}*@
                                 <a asp-action="" asp-route-id="@item.Id">
                                     <img src="~/image/Edit.png" style="width:25px; height:25px;" class="img-fluid" />
-                                 </a>
+                                </a>
+                            </td>
 
+                            <td>
                                 <a asp-controller="MasterService" asp-action="DeleteSemester" asp-route-id="@item.Id">
                                     <img src="~/image/Delete.png" style="width:25px; height:25px;" class="img-fluid" />
                                 </a>
                             </td>
+
+                            @if(item.IsRunning == true)
+                            {
+                                <td>
+                                    <a asp-controller="MasterService" asp-action="DeleteSemester" asp-route-id="@item.Id">
+                                        <img src="~/image/reject.jpg" style="width:25px; height:25px;" class="img-fluid" />
+                                    </a>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>Closed</td>
+                            }
+
                         </tr>
                     }
                 </tbody>

@@ -36,7 +36,8 @@ namespace SMS.Helper
                 new SchoolViewModel() { Id = 1, Name = "Chota Sundar A.Ali High School" },
                 new SchoolViewModel() { Id = 2, Name = "Hasan Ali High School" },
                 new SchoolViewModel() { Id = 3, Name = "Kamranga High School" },
-                new SchoolViewModel() { Id = 4, Name = "Others" }
+                new SchoolViewModel() { Id = 4, Name = "B.N School & College" },
+                new SchoolViewModel() { Id = 5, Name = "Others" }
             };
 
             return Data;
@@ -49,7 +50,8 @@ namespace SMS.Helper
                 new CollegeViewModel() { Id = 1, Name = "Milestone College" },
                 new CollegeViewModel() { Id = 2, Name = "Hajigonj Model College" },
                 new CollegeViewModel() { Id = 3, Name = "Al Amin Academy College" },
-                new CollegeViewModel() { Id = 4, Name = "Others" }
+                new CollegeViewModel() { Id = 4, Name = "B.N School & College" },
+                new CollegeViewModel() { Id = 5, Name = "Others" }
             };
 
             return Data;

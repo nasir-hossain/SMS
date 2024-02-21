@@ -1,4 +1,5 @@
-﻿using SMS.IRepository;
+﻿using SMS.Helper;
+using SMS.IRepository;
 using SMS.Repository;
 
 namespace SMS
@@ -8,7 +9,8 @@ namespace SMS
         public static void RegisterServices(IServiceCollection services, WebApplicationBuilder builder, ConfigurationManager Configuration)
         {
             services.AddTransient<IMasterService,MasterService>(); //Registering Service for Dependancy Injection
-            services.AddTransient<IUserRegistration,UserRegistration>(); //Registering Service for Dependancy Injection
+            services.AddTransient<IUserRegistration,UserRegistration>();
+            services.AddTransient<SmtpService>();
         }
     }
 }

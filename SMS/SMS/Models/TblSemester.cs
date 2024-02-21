@@ -13,6 +13,8 @@ namespace SMS.Models
         public bool  IsActive{ get; set; }
         public DateTime?  DteLastActionDateTime{ get; set; }
         public DateTime?  DteApplicationDeadLine{ get; set; }
+        public DateTime?  DteAdmissionDate{ get; set; }
+        public bool?  IsRunning{ get; set; }
 
     }
 }

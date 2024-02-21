@@ -21,6 +21,7 @@ namespace SMS.ViewModel.ApplicantInfo
         public string Religion { get; set; }
         public bool? IsClose { get; set; } = false;
         public bool? IsApprove { get; set; } = false;
+        public bool? IsActive { get; set; } = false;
         public List<GetApplicantAcademicInfoViewModel> AcademicInfo { get; set; }
 
     }

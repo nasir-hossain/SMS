@@ -65,7 +65,10 @@ namespace SMS.Models
         public bool? IsForPostGraduate { get; set; } = false;
         public bool? IsActive { get; set; } = false;
         public bool? IsClose { get; set; } = false;
+        public long? IntCloseBy { get; set; } = 0;
+        public DateTime? DteCloseDate { get; set; } = null;
         public bool? IsApprove { get; set; } = false;
-
+        public long? IntApproveBy { get; set; } = 0;
+        public DateTime? DteApproveDate { get; set; } = null;
     }
 }

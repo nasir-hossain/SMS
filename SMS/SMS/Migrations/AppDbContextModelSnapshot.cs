@@ -72,8 +72,20 @@ namespace SMS.Migrations
                     b.Property<DateTime?>("DteActionDateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime?>("DteApproveDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DteCloseDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime>("DteDoB")
                         .HasColumnType("datetime2");
+
+                    b.Property<long?>("IntApproveBy")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("IntCloseBy")
+                        .HasColumnType("bigint");
 
                     b.Property<long>("IntFirstDepartmentId")
                         .HasColumnType("bigint");
@@ -209,6 +221,9 @@ namespace SMS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("IntId"), 1L, 1);
 
+                    b.Property<DateTime?>("DteAdmissionDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<DateTime?>("DteApplicationDeadLine")
                         .HasColumnType("datetime2");
 
@@ -216,6 +231,9 @@ namespace SMS.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsRunning")
                         .HasColumnType("bit");
 
                     b.Property<string>("StrSemesterName")

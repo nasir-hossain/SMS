@@ -31,7 +31,8 @@ namespace SMS.Repository
                     StrSemesterName = model.SemesterName,
                     DteApplicationDeadLine=model.ApplicationDeadline,
                     DteLastActionDateTime = DateTime.Now,
-                    IsActive = true
+                    IsActive = true,
+                    IsRunning = true
                 };
 
                 await _context.TblSemester.AddAsync(Data);
@@ -39,7 +40,7 @@ namespace SMS.Repository
 
                 return new MessageHelper()
                 {
-                    Message = "Create Successfully.",
+                    Message = "Created Successfully.",
                     StatusCode = 200
                 };
             }
@@ -64,8 +65,12 @@ namespace SMS.Repository
                               select new SemesterViewModel
                               {
                                   Id = sem.IntId,
-                                  SemesterName = sem.StrSemesterName
-                              }).ToListAsync();
+                                  SemesterName = sem.StrSemesterName,
+                                  ApplicationDeadline = sem.DteApplicationDeadLine,
+                                  AddmissionDate = sem.DteAdmissionDate,
+                                  IsRunning= sem.IsRunning,
+                                  
+                              }).OrderByDescending(x=>x.Id).ToListAsync();
                 return Data;
             }
             catch (Exception ex)
@@ -121,7 +126,7 @@ namespace SMS.Repository
 
                 return new MessageHelper()
                 {
-                    Message = "Create Successfully.",
+                    Message = "Created Successfully.",
                     StatusCode = 200
                 };
             }
@@ -147,7 +152,7 @@ namespace SMS.Repository
                               {
                                   Id = sem.IntId,
                                   DepartmentName = sem.StrDepartmentName
-                              }).ToListAsync();
+                              }).OrderByDescending(x=>x.Id).ToListAsync();
                 return Data;
             }
             catch (Exception ex)
