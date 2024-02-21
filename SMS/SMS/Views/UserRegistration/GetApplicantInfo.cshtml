@@ -78,6 +78,10 @@
             <th>
                 Approve
             </th>
+
+            <th>
+                Reject
+            </th>
         </tr>
     </thead>
 
@@ -126,19 +130,46 @@
                     </td>
 
 
-
+                    
                     <td class="text-end">
                         @*asp-route-id for Route Values => {controller=Home}/{action=Index}/{id?} *@
                         <a asp-action="" asp-route-id="@item.Id">
-                            <img src="~/image/Edit.png" style="width:25px; height:25px;" class="img-fluid" />
+                            <img src="~/image/View.jpg" style="width:25px; height:25px;" class="img-fluid" />
                         </a>
                     </td>
-                    <td>
 
-                        <a asp-controller="MasterService" asp-action="DeleteDepartment" asp-route-id="@item.Id">
-                            <img src="~/image/Delete.png" style="width:25px; height:25px;" class="img-fluid" />
-                        </a>
-                    </td>
+                    @if(item.IsApprove == true)
+                    {
+                        <td>
+                            Approved
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+                            <a asp-controller="MasterService" asp-action="DeleteDepartment" asp-route-id="@item.Id">
+                                <img src="~/image/Approve.jpg" style="width:25px; height:25px;" class="img-fluid" />
+                            </a>
+                        </td>
+                    }
+
+                    @if(item.IsClose == true)
+                    {
+                        <td>
+                            Rejected
+                        </td>
+                    }
+                    else
+                    {
+                        <td>
+
+                            <a asp-controller="MasterService" asp-action="DeleteDepartment" asp-route-id="@item.Id">
+                                <img src="~/image/reject.jpg" style="width:25px; height:25px;" class="img-fluid" />
+                            </a>
+                        </td>
+                    }
+                   
+                   
             </tbody>
         }
 

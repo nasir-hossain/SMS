@@ -47,7 +47,8 @@ namespace SMS.Repository
                     IsPassed = false,
                     IsForPostGraduate = false,
                     IsActive = true,
-                    IsClose = false
+                    IsClose = false,
+                    IsApprove = false
                 };
 
                 await _context.TblApplicantInfoHeader.AddAsync(head);
@@ -107,7 +108,21 @@ namespace SMS.Repository
                                               Nationality = appInfo.StrNationality,
                                               DoB = appInfo.DteDoB.Date,
                                               RegistrationCode = appInfo.StrRegistrationCode,
-                                              Religion = appInfo.StrReligion
+                                              Religion = appInfo.StrReligion,
+                                              IsApprove = appInfo.IsApprove,
+                                              IsClose = appInfo.IsClose,
+                                              AcademicInfo= (from ac in _context.TblApplicantAcademicInfo
+                                                            where ac.IntApplicantHeaderId == appInfo.IntId
+                                                            && ac.IsActive ==true
+                                                            select new GetApplicantAcademicInfoViewModel
+                                                            {
+                                                                InstitutionName = ac.StrInstitutionName,
+                                                                RegistrationNumber = ac.StrRegistrationNumber,
+                                                                Board = ac.StrBoard,
+                                                                Result=ac.NumResult,
+                                                                Scale= ac.StrScale,
+                                                                PassingYear = ac.IntPassingYear
+                                                            }).ToList()
                                           }).ToListAsync();
 
                 return PersonalData;

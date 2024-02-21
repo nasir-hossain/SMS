@@ -19,6 +19,8 @@ namespace SMS.ViewModel.ApplicantInfo
         public string Address { get; set; }
         public string Nationality { get; set; }
         public string Religion { get; set; }
+        public bool? IsClose { get; set; } = false;
+        public bool? IsApprove { get; set; } = false;
         public List<GetApplicantAcademicInfoViewModel> AcademicInfo { get; set; }
 
     }

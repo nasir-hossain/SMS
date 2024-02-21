@@ -65,6 +65,7 @@ namespace SMS.Models
         public bool? IsForPostGraduate { get; set; } = false;
         public bool? IsActive { get; set; } = false;
         public bool? IsClose { get; set; } = false;
+        public bool? IsApprove { get; set; } = false;
 
     }
 }
