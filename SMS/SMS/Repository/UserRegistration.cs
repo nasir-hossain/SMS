@@ -33,10 +33,30 @@ namespace SMS.Repository
                     var Head = model.HeaderModel;
                     var Academic = model.AcademicModel;
                     List<TblApplicantAcademicInfo> AddList = new List<TblApplicantAcademicInfo>();
+                    string code = "";
+
+
+                    #region======= Code Generate ==========
+                    long Year = DateTime.Now.Year;
+                    long SemesterNumber =  _context.TblSemester.Where(x => x.IntId >= Head.SemesterId && x.IsActive == true).Count();
+                    bool IsRunning =  _context.TblSemester.Where(x => x.IntId == Head.SemesterId && x.IsActive == true).Select(x=>x.IsRunning ?? false).FirstOrDefault();
+                    long ApplicantSL = _context.TblApplicantInfoHeader.Where(x => x.IsActive == true && x.IntSemesterId == Head.SemesterId).Count();
+                    long Next = 0;
+
+                    Year = Year % 100;
+                    if (IsRunning)
+                    {
+                        Next = ApplicantSL;
+                    }
+                    Next = Next + 1;
+                    code = $"{Year:D2}{SemesterNumber:D2}{Next:D4}";
+
+                    #endregion
+
 
                     TblApplicantInfoHeader head = new TblApplicantInfoHeader()
                     {
-                        StrRegistrationCode = "",
+                        StrRegistrationCode = code,
                         StrFirstName = Head.FirstName,
                         StrLastName = Head.LastName,
                         StrFullName = Head.FullName,
