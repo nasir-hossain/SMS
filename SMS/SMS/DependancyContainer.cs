@@ -11,6 +11,7 @@ namespace SMS
             services.AddTransient<IMasterService,MasterService>(); //Registering Service for Dependancy Injection
             services.AddTransient<IUserRegistration,UserRegistration>();
             services.AddTransient<SmtpService>();
+            services.AddTransient<CodeGenerator>();
         }
     }
 }

@@ -18,6 +18,7 @@ namespace SMS.DBContext
         public DbSet<TblSemester> TblSemester { get; set; } 
         public DbSet<TblApplicantAcademicInfo> TblApplicantAcademicInfo { get; set; } 
         public DbSet<TblApplicantInfoHeader> TblApplicantInfoHeader { get; set; } 
+        public DbSet<TblCodeGenerator> TblCodeGenerator { get; set; } 
 
     }
 }

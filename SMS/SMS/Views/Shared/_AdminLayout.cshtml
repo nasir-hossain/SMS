@@ -16,32 +16,35 @@
     <header>
         <div class="container-fluid">
             <div class="row bg-success p-2 border-bottom border-2 border-warning stickHeader">
+                    <div class="flex-container">
+                        <div class="flex-item-1">
+                            <img src="~/image/logo.png" style="width:60px; height:60px;" class="img-fluid" />
+                        </div>
 
-                <div class="flex-container">
-                    <div class="flex-item-1">
-                        <img src="~/image/logo.png" style="width:60px; height:60px;" class="img-fluid" />
+                        <div class="flex-item-2">
+                            <p class="h3 text-white text-md-center mt-md-1">Bangladesh Army International University of Science and Technology</p>
+                        </div>
+
+                        <partial name="_HeaderPartial" />
                     </div>
 
-                    <div class="flex-item-2">
-                        <p class="h3 text-white text-md-center mt-md-1">Bangladesh Army International University of Science and Technology</p>
-                    </div>
-
-                    <partial name="_HeaderPartial" />
-                </div>
             </div>
+          
         </div>
+
+
     </header>
 
 @*border border-1 border-success *@
     <div class="container-fluid">
-        <main role="main" class="pb-3">
+        <main role="main" class="pb-3 MainWrap">
+
             <div class="sidebar floatleft">
                 <h4 class="ms-3 bg-success text-light text-center p-1">Admin Dashboard</h4>
                 <ul>
                     <li><a asp-controller="UserRegistration" asp-action="GetApplicantInfo">Applicants Info</a></li>
                     <li><a asp-controller="MasterService" asp-action="GetSemester">Semester</a></li>
                     <li><a asp-controller="MasterService" asp-action="GetDepartment">Department</a></li>
-                    <li><a href="#clients">Course</a></li>
                 </ul>
             </div>
 
