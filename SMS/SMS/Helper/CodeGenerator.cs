@@ -13,17 +13,17 @@ namespace SMS.Helper
             _context = context;
         }
 
-        public async Task<string> GetStudentRegistrationCode(long semesterId,string semesterName)
+        public async Task<string> GetStudentRegistrationCode(long semesterId,string semesterName, long departmentId)
         {
             string code = "";
-            long Year = 1;
             long SemesterOfYear = 0;
             long BatchCount = await _context.TblSemester.Where(x => x.IntId >= semesterId && x.IsActive == true).CountAsync();
             var CodeInfo = await _context.TblCodeGenerator
                                          .Where(x => x.StrType == "Student"
                                                   && x.IntSemesterId == semesterId
-                                                  && x.IntBatchCount == BatchCount)
+                                                  && x.IntDepartmentId == departmentId)
                                          .FirstOrDefaultAsync();
+
             if (semesterName.ToLower().Contains("spring".ToLower()))
             {
                 SemesterOfYear = 1;
@@ -41,8 +41,8 @@ namespace SMS.Helper
                 var Data = new TblCodeGenerator
                 {
                     IntSemesterId = semesterId,
-                    IntBatchCount = BatchCount,
                     IntSerialCount = NextSL,
+                    IntDepartmentId = departmentId,
                     DteLastActionDateTime = DateTime.Now,
                     StrType = "Student"
                 };
@@ -57,7 +57,7 @@ namespace SMS.Helper
                 _context.TblCodeGenerator.Update(CodeInfo);
                 await _context.SaveChangesAsync();
             }
-            code = $"{Year:D1}{SemesterOfYear:D1}{BatchCount:D2}{NextSL:D4}";
+            code = $"{SemesterOfYear:D1}{departmentId:D1}{BatchCount:D2}{NextSL:D4}";
 
             return code;
         }
@@ -80,7 +80,6 @@ namespace SMS.Helper
                 var Data = new TblCodeGenerator
                 {
                     IntSemesterId = semesterId,
-                    IntBatchCount = BatchCount,
                     IntSerialCount = NextSL,
                     DteLastActionDateTime = DateTime.Now,
                     StrType = "Applicant"

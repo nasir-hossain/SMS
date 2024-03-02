@@ -35,10 +35,8 @@ p {
     float: right
 }
 
-
-
-.MainWrap {
-
+.margin-top-100 {
+    margin-top:100px;
 }
 
 .sidebar {
@@ -58,8 +56,8 @@ p {
 .contentMain {
     margin-left: 250px; /* Same as the width of the sidenav */
     font-size: 20px;
-    margin-top: 100px;
-    height: 100%;
+    /*margin-top: 100px;*/
+    height:100%;
     width: 1200px;
     /*overflow:auto;*/
     position: fixed;

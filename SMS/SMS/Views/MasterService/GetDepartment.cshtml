@@ -8,11 +8,11 @@
 
 
 
-<div>
+<div class="margin-top-100">
     <div class="row">
         <div class="col-8">
 
-            <h3 class="alert alert-success ms-3 mt-3">Department Info</h3>
+            <h3 class="alert alert-light ms-2 mt-3">Department Info</h3>
 
             <div class="d-flex justify-content-start ms-4">
                 @if (!string.IsNullOrEmpty(ViewBag.Msg))
@@ -31,10 +31,10 @@
                         <th>
                             Department
                         </th>
-                        <th>
+                        <th class="text-center">
                             Edit
                         </th>
-                        <th>
+                        <th class="text-center">
                             Delete
                         </th>
                     </tr>
@@ -48,16 +48,16 @@
                             </td>
 
 
-                            <td>
+                            <td class="text-center">
                                 @*asp-route-id for Route Values => {controller=Home}/{action=Index}/{id?} => only For get Method*@
                                 <a asp-action="" asp-route-id="@item.Id">
-                                    <img src="~/image/Edit.png" style="width:25px; height:25px;" class="img-fluid" />
+                                    <img src="~/image/Edit.png" style="width:20px; height:20px;" class="img-fluid" />
                                 </a>
 
                             </td>
-                            <td>
+                            <td class="text-center">
                                 <a asp-controller="MasterService" asp-action="DeleteDepartment" asp-route-id="@item.Id">
-                                    <img src="~/image/Delete.png" style="width:25px; height:25px;" class="img-fluid" />
+                                    <img src="~/image/Delete.png" style="width:20px; height:20px;" class="img-fluid" />
                                 </a>
                             </td>
                         </tr>
