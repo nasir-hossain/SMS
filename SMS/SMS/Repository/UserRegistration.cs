@@ -14,14 +14,14 @@ namespace SMS.Repository
     public class UserRegistration : IUserRegistration
     {
         private readonly AppDbContext _context;
-        private readonly IHttpContextAccessor _contextAccessor;
+        private readonly LoggedInUserInfo _loggedInUser;
         private readonly SmtpService _smtpService;
         private readonly CodeGenerator _codeGenerator;
 
-        public UserRegistration(AppDbContext context, IHttpContextAccessor contextAccessor, SmtpService smtpService, CodeGenerator codeGenerator)
+        public UserRegistration(AppDbContext context, LoggedInUserInfo loggedInUser, SmtpService smtpService, CodeGenerator codeGenerator)
         {
             _context = context;
-            _contextAccessor = contextAccessor;
+            _loggedInUser = loggedInUser;
             _smtpService = smtpService;
             _codeGenerator = codeGenerator;
         }
@@ -35,6 +35,12 @@ namespace SMS.Repository
                     var Head = model.HeaderModel;
                     var Academic = model.AcademicModel;
                     List<TblApplicantAcademicInfo> AddList = new List<TblApplicantAcademicInfo>();
+                    var DupEmail = await _context.TblApplicantInfoHeader.Where(x => x.StrEmail == Head.Email && x.IsActive == true).FirstOrDefaultAsync();
+                    if (DupEmail != null)
+                    {
+                        throw new Exception("This email is already used.");
+                    }
+
                     string code = "";
                     code = await _codeGenerator.GetApplicantAddmissionCode(Head.SemesterId);
 
@@ -157,26 +163,18 @@ namespace SMS.Repository
             {
                 try
                 {
-                    var LoggedInUserInfo = _contextAccessor.HttpContext.User;
-                    var LoggedInUserId = LoggedInUserInfo.FindAll(System.Security.Claims.ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault();
-                    var LoggedInName = LoggedInUserInfo.FindAll(System.Security.Claims.ClaimTypes.Name).Select(x => x.Value).FirstOrDefault();
+                    var loggedInUser = _loggedInUser.GetLoggedInUserInfo();
+                    var ApplicantData = await _context.TblApplicantInfoHeader
+                                                      .Where(x => x.IntId == Id && x.IsActive == true && x.IsApprove == false && x.IsClose == false)
+                                                      .FirstOrDefaultAsync();
 
-
-                    var Data = await _context.TblApplicantInfoHeader
-                                             .Where(x => x.IntId == Id
-                                                      && x.IsActive == true
-                                                      && x.IsApprove == false
-                                                      && x.IsClose == false)
-                                             .FirstOrDefaultAsync();
-
-                    if (Data == null)
+                    if (ApplicantData == null)
                     {
                         throw new Exception("Applicant Not Found.");
                     }
 
                    DateTime? AddmissionDate = await _context.TblSemester
-                                                   .Where(x => x.IntId == Data.IntSemesterId
-                                                           && x.IsActive == true)
+                                                   .Where(x => x.IntId == ApplicantData.IntSemesterId && x.IsActive == true)
                                                    .Select(x => x.DteAdmissionDate)
                                                    .FirstOrDefaultAsync();
                     if (AddmissionDate == null)
@@ -184,33 +182,35 @@ namespace SMS.Repository
                         throw new Exception("Please set Addmission ExamDate.");
                     }
 
-                    string Password = $"{Data.StrFirstName}@123";
-                    Data.DteApproveDate = DateTime.Now;
-                    Data.IsApprove = true;
-                    Data.IntApproveBy = Convert.ToInt64(LoggedInUserId);
-                    _context.TblApplicantInfoHeader.Update(Data);
+                    string Password = $"{ApplicantData.StrFirstName}@123";
+                    ApplicantData.DteApproveDate = DateTime.Now;
+                    ApplicantData.IsApprove = true;
+                    ApplicantData.IntApproveBy = Convert.ToInt64(loggedInUser.UserId);
+                    _context.TblApplicantInfoHeader.Update(ApplicantData);
                     await _context.SaveChangesAsync();
 
                     var User = new TblUser
                     {
-                        StrFirstName = Data.StrFirstName,
-                        StrLastName = Data.StrLastName,
-                        StrFullName = Data.StrFullName,
-                        StrEmail = Data.StrEmail,
+                        StrFirstName = ApplicantData.StrFirstName,
+                        StrLastName = ApplicantData.StrLastName,
+                        StrFullName = ApplicantData.StrFullName,
+                        StrEmail = ApplicantData.StrEmail,
                         StrPassword = Password,
-                        StrContact = Data.StrContactNumber,
+                        StrContact = ApplicantData.StrContactNumber,
                         IsActive = true,
                         DteLastActionDateTime = DateTime.Now,
-                        IntActionBy = Data.IntId,
+                        IntActionBy = Convert.ToInt64(loggedInUser.UserId),
+                        IntUserReferenceId = ApplicantData.IntId,
                     };
                     await _context.TblUser.AddAsync(User);
                     await _context.SaveChangesAsync();
 
 
+
                     var role = await _context.TblRole
-                                             .Where(x => x.StrRoleName.ToLower().Contains("Applicant".ToLower())
-                                                      && x.IsActive == true)
+                                             .Where(x => x.StrRoleName.ToLower().Contains("Applicant".ToLower()) && x.IsActive == true)
                                              .FirstOrDefaultAsync();
+
                     if (role == null)
                     {
                         throw new Exception("Role for Applicant Not Found.");
@@ -226,7 +226,7 @@ namespace SMS.Repository
                     await _context.SaveChangesAsync();
 
                     string DateString = AddmissionDate?.ToString("ddd dd MMM yyyy hh:mm tt") ?? "";
-                    var EBody = EmailBody.ApplicantApprovalBody(Data.StrFullName, Data.StrRegistrationCode, User.StrEmail, User.StrPassword, LoggedInName ?? "", DateString);
+                    var EBody = EmailBody.ApplicantApprovalBody(ApplicantData.StrFullName, ApplicantData.StrRegistrationCode, User.StrEmail, User.StrPassword, loggedInUser.UserName ?? "", DateString);
                     var ESubject = "Applicant's Registration";
                     await _smtpService.SendEmailAsync(User.StrFullName, User.StrEmail, ESubject, EBody);
 
@@ -244,40 +244,57 @@ namespace SMS.Repository
                     throw new Exception("Failed to Approve.");
                 }
             }
-
         }
 
-        public async Task<MessageHelper> RejectApplicant(long Id)
-        {
-            try
-            {
-                var userInfo = _contextAccessor.HttpContext.User;
-                var UserId = userInfo.FindAll(System.Security.Claims.ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault();
+        //public async Task<MessageHelper> RejectApplicant(long Id)
+        //{
+        //    try
+        //    {
+        //        //var userInfo = _contextAccessor.HttpContext.User;
+        //        var UserId = userInfo.FindAll(System.Security.Claims.ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault();
 
-                var Data = await _context.TblApplicantInfoHeader
-                                         .Where(x => x.IntId == Id
-                                                  && x.IsActive == true
-                                                  && x.IsApprove == false
-                                                  && x.IsClose == false)
-                                         .FirstOrDefaultAsync();
+        //        var Data = await _context.TblApplicantInfoHeader
+        //                                 .Where(x => x.IntId == Id
+        //                                          && x.IsActive == true
+        //                                          && x.IsApprove == false
+        //                                          && x.IsClose == false)
+        //                                 .FirstOrDefaultAsync();
 
-                if (Data != null)
-                {
-                    Data.IsClose = true;
-                    Data.IntCloseBy = Convert.ToInt64(UserId);
-                    Data.DteCloseDate = DateTime.Now;
-                }
+        //        if (Data != null)
+        //        {
+        //            Data.IsClose = true;
+        //            Data.IntCloseBy = Convert.ToInt64(UserId);
+        //            Data.DteCloseDate = DateTime.Now;
+        //        }
 
-                return new MessageHelper
-                {
-                    Message = "Rejected Successfully",
-                    StatusCode = 200
-                };
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
+        //        return new MessageHelper
+        //        {
+        //            Message = "Rejected Successfully",
+        //            StatusCode = 200
+        //        };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
+
+
+        //public async Task<GetApplicantHeaderInfoViewModel> GetLoggedInApplicantData()
+        //{
+        //    try
+        //    {
+        //        var LoggedInUserInfo = _contextAccessor.HttpContext.User;
+        //        var LoggedInUserId = LoggedInUserInfo.FindAll(System.Security.Claims.ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault();
+        //        var LoggedInName = LoggedInUserInfo.FindAll(System.Security.Claims.ClaimTypes.Name).Select(x => x.Value).FirstOrDefault();
+
+        //        var UserInfo = _context.TblUser.Where(x=>)
+
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw ex;
+        //    }
+        //}
     }
 }

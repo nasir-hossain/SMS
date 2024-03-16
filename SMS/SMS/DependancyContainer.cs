@@ -12,6 +12,7 @@ namespace SMS
             services.AddTransient<IUserRegistration,UserRegistration>();
             services.AddTransient<SmtpService>();
             services.AddTransient<CodeGenerator>();
+            services.AddTransient<LoggedInUserInfo>();
         }
     }
 }

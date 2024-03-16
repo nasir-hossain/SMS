@@ -70,5 +70,13 @@ namespace SMS.Models
         public bool? IsApprove { get; set; } = false;
         public long? IntApproveBy { get; set; } = 0;
         public DateTime? DteApproveDate { get; set; } = null;
+
+        [Required]
+        [StringLength(150, MinimumLength = 1, ErrorMessage = "The field must be between 1 and 150 characters.")]
+        public string? FatherName { get; set; } = null;
+
+        [Required]
+        [StringLength(150, MinimumLength = 1, ErrorMessage = "The field must be between 1 and 150 characters.")]
+        public string? MotherName { get; set; } = null;
     }
 }

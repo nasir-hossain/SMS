@@ -15,5 +15,6 @@ namespace SMS.Models
         public bool IsActive { get; set; }
         public DateTime? DteLastActionDateTime { get; set; } 
         public long? IntActionBy { get; set; }
+        public long? IntUserReferenceId { get; set; }
     }
 }
