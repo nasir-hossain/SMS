@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using SMS.DBContext;
 using SMS.Helper;
 using SMS.IRepository;
+using SMS.Services.UploadFile.Interface;
 using SMS.ViewModel;
 using SMS.ViewModel.ApplicantInfo;
 
@@ -12,13 +13,15 @@ namespace SMS.Controllers
     {
         private readonly IUserRegistration _IRepository;
         private readonly IMasterService _masterService;
+        private readonly IUploadfile _uploadFile;
         private readonly AppDbContext _context;
 
-        public UserRegistrationController(IUserRegistration IRepository, AppDbContext context, IMasterService masterService)
+        public UserRegistrationController(IUserRegistration IRepository, AppDbContext context, IMasterService masterService, IUploadfile uploadFile)
         {
             _IRepository = IRepository;
             _context = context;
             _masterService = masterService;
+            _uploadFile = uploadFile;
         }
 
         [HttpGet]
@@ -146,11 +149,11 @@ namespace SMS.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateApplicant(ApplicantViewModel model)
+        public async Task<IActionResult> CreateApplicant(ApplicantViewModel model, IFormFile file)
         {
             try
             {
-                // Jehetu Post Method a View Return korechi taile DDL er Jonno Data Pathate hobe .. Ta na hole Null Exception Dibe.
+                // Jehetu Post Method a View Return korechi tai DDL er Jonno Data Pathate hobe .. Ta na hole Null Exception Dibe.
 
 
                 ApplicantViewModel ViewModel = new ApplicantViewModel();
@@ -260,7 +263,7 @@ namespace SMS.Controllers
                 });
 
 
-                await _IRepository.CreateApplicant(model);
+                await _IRepository.CreateApplicant(model, file);
                 return View(ViewModel);
             }
             catch (Exception ex)
@@ -313,6 +316,20 @@ namespace SMS.Controllers
             {
                 throw ex;
             }
+        }
+
+
+        [HttpGet]
+        public IActionResult TestFileUpload()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> TestFileUpload(IFormFile file)
+        {
+            var data = await _uploadFile.FileUpload(file);
+            return View();
         }
     }
 }

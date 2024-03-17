@@ -1,6 +1,8 @@
 ﻿using SMS.Helper;
 using SMS.IRepository;
 using SMS.Repository;
+using SMS.Services.UploadFile;
+using SMS.Services.UploadFile.Interface;
 
 namespace SMS
 {
@@ -13,6 +15,7 @@ namespace SMS
             services.AddTransient<SmtpService>();
             services.AddTransient<CodeGenerator>();
             services.AddTransient<LoggedInUserInfo>();
+            services.AddTransient<IUploadfile, UploadFile>();
         }
     }
 }

@@ -6,6 +6,7 @@ using SMS.DBContext;
 using SMS.Helper;
 using SMS.IRepository;
 using SMS.Models;
+using SMS.Services.UploadFile.Interface;
 using SMS.ViewModel.ApplicantInfo;
 using System.ComponentModel.DataAnnotations;
 
@@ -17,16 +18,18 @@ namespace SMS.Repository
         private readonly LoggedInUserInfo _loggedInUser;
         private readonly SmtpService _smtpService;
         private readonly CodeGenerator _codeGenerator;
+        private readonly IUploadfile  _uploadFile;
 
-        public UserRegistration(AppDbContext context, LoggedInUserInfo loggedInUser, SmtpService smtpService, CodeGenerator codeGenerator)
+        public UserRegistration(AppDbContext context, LoggedInUserInfo loggedInUser, SmtpService smtpService, CodeGenerator codeGenerator, IUploadfile uploadFile)
         {
             _context = context;
             _loggedInUser = loggedInUser;
             _smtpService = smtpService;
             _codeGenerator = codeGenerator;
+            _uploadFile = uploadFile;
         }
 
-        public async Task<MessageHelper> CreateApplicant(ApplicantViewModel model)
+        public async Task<MessageHelper> CreateApplicant(ApplicantViewModel model, IFormFile file)
         {
             using (var transaction = await _context.Database.BeginTransactionAsync())
             {
@@ -35,6 +38,7 @@ namespace SMS.Repository
                     var Head = model.HeaderModel;
                     var Academic = model.AcademicModel;
                     List<TblApplicantAcademicInfo> AddList = new List<TblApplicantAcademicInfo>();
+                    var Attachment = await _uploadFile.FileUpload(file);
                     var DupEmail = await _context.TblApplicantInfoHeader.Where(x => x.StrEmail == Head.Email && x.IsActive == true).FirstOrDefaultAsync();
                     if (DupEmail != null)
                     {
@@ -61,13 +65,16 @@ namespace SMS.Repository
                         StrNationality = Head.Nationality,
                         StrReligion = Head.Religion,
                         DteActionDateTime = DateTime.Now,
-                        StrAttachment = "",
+                        StrAttachment = Attachment,
                         NumTotalMark = 0,
                         IsPassed = false,
                         IsForPostGraduate = false,
                         IsActive = true,
                         IsClose = false,
-                        IsApprove = false
+                        IsApprove = false,
+                        FatherName = Head.FatherName,
+                        MotherName = Head.MotherName,
+                        
                     };
 
                     await _context.TblApplicantInfoHeader.AddAsync(head);
@@ -296,5 +303,7 @@ namespace SMS.Repository
         //        throw ex;
         //    }
         //}
+
+
     }
 }

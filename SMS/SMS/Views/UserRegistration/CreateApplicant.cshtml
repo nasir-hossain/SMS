@@ -7,7 +7,7 @@
 
 <div class="row">
     <h4 class="text-danger text-center mt-2">Applicant's Registration</h4>
-    <form asp-controller="UserRegistration" asp-action="CreateApplicant" method="post" class=" bg-light p-3 ms-3 mt-3">
+    <form asp-controller="UserRegistration" asp-action="CreateApplicant" method="post" enctype="multipart/form-data" class=" bg-light p-3 ms-3 mt-3">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="flex-Main">
@@ -37,10 +37,50 @@
                 </div>
 
 
+
                 <div class="me-3 mt-3 flex-item">
                     <label asp-for="@Model.HeaderModel.FullName" class="control-label" style="font-size:15px">Full Name</label>
                     <input asp-for="@Model.HeaderModel.FullName" class="form-control mt-2" />
                     <span asp-validation-for="@Model.HeaderModel.FullName" class="text-danger" style="font-size:15px"></span>
+                </div>
+
+
+                <div class="me-3 mt-3 flex-item">
+                    <label asp-for="@Model.HeaderModel.FatherName" class="control-label" style="font-size:15px">Father's Name</label>
+                    <input asp-for="@Model.HeaderModel.FatherName" class="form-control mt-2" />
+                    <span asp-validation-for="@Model.HeaderModel.FatherName" class="text-danger" style="font-size:15px"></span>
+                </div>
+
+                <div class="me-3 mt-3 flex-item">
+                    <label asp-for="@Model.HeaderModel.MotherName" class="control-label" style="font-size:15px">Mother's Name</label>
+                    <input asp-for="@Model.HeaderModel.MotherName" class="form-control mt-2" />
+                    <span asp-validation-for="@Model.HeaderModel.MotherName" class="text-danger" style="font-size:15px"></span>
+                </div>
+
+
+                <div class="me-3 mt-3 flex-item">
+                    <label asp-for="@Model.HeaderModel.FirstDepartmentId" class="control-label mb-2" style="font-size:15px">Department (First choice)</label>
+                    <select class="form-select" asp-items="@Model.DepartmentModel" asp-for="@Model.HeaderModel.FirstDepartmentId">
+                        <option>------- Select -------</option>
+                    </select>
+                    <span asp-validation-for="@Model.HeaderModel.FirstDepartmentId" class="text-danger" style="font-size:15px"></span>
+                </div>
+
+
+                <div class="me-3 mt-3 flex-item">
+                    <label asp-for="@Model.HeaderModel.OptionalDepartmentId" class="control-label mb-2" style="font-size:15px">Department (Optional)</label>
+                    <select class="form-select" asp-items="@Model.DepartmentModel" asp-for="@Model.HeaderModel.OptionalDepartmentId">
+                        <option>------- Select -------</option>
+                    </select>
+                    <span asp-validation-for="@Model.HeaderModel.OptionalDepartmentId" class="text-danger" style="font-size:15px"></span>
+                </div>
+
+
+
+                <div class="me-3 mt-3" style="width:220px">
+                    <label asp-for="@Model.HeaderModel.DoB" class="control-label" style="font-size:15px">Date of Birth</label>
+                    <input type="date" asp-for="@Model.HeaderModel.DoB" class="form-control mt-2" />
+                    <span asp-validation-for="@Model.HeaderModel.DoB" class="text-danger" style="font-size:15px"></span>
                 </div>
 
 
@@ -98,33 +138,11 @@
 
 
                 <div class="me-3 mt-3 flex-item">
-                    <label asp-for="@Model.HeaderModel.FirstDepartmentId" class="control-label mb-2" style="font-size:15px">Department (First choice)</label>
-                    <select class="form-select" asp-items="@Model.DepartmentModel" asp-for="@Model.HeaderModel.FirstDepartmentId">
-                        <option>------- Select -------</option>
-                    </select>
-                    <span asp-validation-for="@Model.HeaderModel.FirstDepartmentId" class="text-danger" style="font-size:15px"></span>
-                </div>
-
-
-                <div class="me-3 mt-3 flex-item">
-                    <label asp-for="@Model.HeaderModel.OptionalDepartmentId" class="control-label mb-2" style="font-size:15px">Department (Optional)</label>
-                    <select class="form-select" asp-items="@Model.DepartmentModel" asp-for="@Model.HeaderModel.OptionalDepartmentId">
-                        <option>------- Select -------</option>
-                    </select>
-                    <span asp-validation-for="@Model.HeaderModel.OptionalDepartmentId" class="text-danger" style="font-size:15px"></span>
-                </div>
-
-
-                <div class="me-3 mt-3" style="width:220px">
-                    <label asp-for="@Model.HeaderModel.DoB" class="control-label" style="font-size:15px">Date of Birth</label>
-                    <input type="date" asp-for="@Model.HeaderModel.DoB" class="form-control mt-2" />
-                    <span asp-validation-for="@Model.HeaderModel.DoB" class="text-danger" style="font-size:15px"></span>
+                    <label  for ="file"class="control-label" style="font-size:15px">Upload Profile</label>
+                    <input type ="file" name="file" class="form-control mt-2" />
                 </div>
 
             </div>
-
-
-
 
             <h5 class="text-success mt-4 ">School Information</h5>
            
@@ -238,8 +256,8 @@
                         <option value="CGPA">CGPA</option>
                     </select>
                     <span asp-validation-for="@Model.AcademicModel[1].Scale" class="text-danger" style="font-size:15px"></span>
-                </div> 
-               
+                </div>
+
 
                 <div class="me-3 mt-3 flex-item">
                     <input type="submit" value="Submit" class="btn btn-primary" />
