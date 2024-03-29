@@ -1,6 +1,8 @@
 ﻿using SMS.Helper;
 using SMS.IRepository;
 using SMS.Repository;
+using SMS.Services.PDF;
+using SMS.Services.PDF.Interface;
 using SMS.Services.UploadFile;
 using SMS.Services.UploadFile.Interface;
 
@@ -16,6 +18,7 @@ namespace SMS
             services.AddTransient<CodeGenerator>();
             services.AddTransient<LoggedInUserInfo>();
             services.AddTransient<IUploadfile, UploadFile>();
+            services.AddTransient<IAdmitCardPdfService, AdmitCardPdfService>();
         }
     }
 }

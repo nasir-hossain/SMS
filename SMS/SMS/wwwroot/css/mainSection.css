@@ -75,17 +75,14 @@ p {
     display: flex;
     flex-wrap: wrap;
     /*  flex-direction:column;*/
-    /* flex-direction:row;*/
+ /*    flex-direction:row;*/
     padding: 5px;
     background-color: #fff;
     border-radius: 8px;
-/*    align-items: center;
-*/    /* justify-content: center;*/
-    /* line-height: 75px;*/
 }
 
 .flex-item {
-    flex: 15%;
+    flex: 10%;
 }
 
 

@@ -3,6 +3,7 @@
 namespace SMS.ViewModel.ApplicantInfo
 {
     public class ApplicantInfoHeaderViewModel
+
     {
         public long Id { get; set; }
         [Required]

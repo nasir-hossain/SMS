@@ -77,7 +77,7 @@
 
 
 
-                <div class="me-3 mt-3" style="width:220px">
+                <div class="me-3 mt-3" style="width:170px">
                     <label asp-for="@Model.HeaderModel.DoB" class="control-label" style="font-size:15px">Date of Birth</label>
                     <input type="date" asp-for="@Model.HeaderModel.DoB" class="form-control mt-2" />
                     <span asp-validation-for="@Model.HeaderModel.DoB" class="text-danger" style="font-size:15px"></span>
@@ -138,14 +138,16 @@
 
 
                 <div class="me-3 mt-3 flex-item">
-                    <label  for ="file"class="control-label" style="font-size:15px">Upload Profile</label>
-                    <input type ="file" name="file" class="form-control mt-2" />
+                    <label for="file" class="control-label" style="font-size:15px">Upload Profile</label>
+                    <input type="file" name="file" class="form-control mt-2" style="border: 1px solid #ccc; border-radius: 5px; " />
                 </div>
+
 
             </div>
 
+
+            <br><br><br>
             <h5 class="text-success mt-4 ">School Information</h5>
-           
             <div class="Form-Flex-Container ">
 
                 <div class="me-3 mt-3 flex-item">
@@ -164,6 +166,18 @@
                         <option>------- Select -------</option>
                     </select>                    
                     <span asp-validation-for="@Model.AcademicModel[0].Board" class="text-danger" style="font-size:15px"></span>
+                </div>
+
+
+                <div class="me-3 mt-3 flex-item">
+                    <label asp-for="@Model.AcademicModel[0].Group" class="control-label mb-2" style="font-size:15px">Group</label>
+                    <select class="form-select" asp-for="@Model.AcademicModel[0].Group">
+                        <option>------- Select -------</option>
+                        <option value="Science">Science</option>
+                        <option value="Commerce">Commerce</option>
+                        <option value="Arts">Arts</option>
+                    </select>
+                    <span asp-validation-for="@Model.AcademicModel[0].Group" class="text-danger" style="font-size:15px"></span>
                 </div>
 
 
@@ -202,7 +216,7 @@
 
 
 
-
+            <br><br><br>
 
             <h5 class="text-success mt-4">College Information</h5>
             <div class="Form-Flex-Container ">
@@ -223,6 +237,17 @@
                         <option>------- Select -------</option>
                     </select>
                     <span asp-validation-for="@Model.AcademicModel[1].Board" class="text-danger" style="font-size:15px"></span>
+                </div> 
+                
+                <div class="me-3 mt-3 flex-item">
+                    <label asp-for="@Model.AcademicModel[1].Group" class="control-label mb-2" style="font-size:15px">Group</label>
+                    <select class="form-select" asp-for="@Model.AcademicModel[1].Group">
+                        <option>------- Select -------</option>
+                        <option value="Science">Science</option>
+                        <option value="Commerce">Commerce</option>
+                        <option value="Arts">Arts</option>
+                    </select>
+                    <span asp-validation-for="@Model.AcademicModel[1].Group" class="text-danger" style="font-size:15px"></span>
                 </div>
 
 
@@ -258,13 +283,16 @@
                     <span asp-validation-for="@Model.AcademicModel[1].Scale" class="text-danger" style="font-size:15px"></span>
                 </div>
 
-
-                <div class="me-3 mt-3 flex-item">
-                    <input type="submit" value="Submit" class="btn btn-primary" />
-                </div>
             </div>
 
+
+            <div class="me-3 mt-3 flex-item">
+                <input type="submit" value="Submit" class="btn btn-primary" />
+            </div>
         </div>
+
+
+
 
       
     </form>

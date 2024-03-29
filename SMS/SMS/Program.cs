@@ -1,3 +1,5 @@
+using DinkToPdf.Contracts;
+using DinkToPdf;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -5,6 +7,7 @@ using SMS; //For DependancyContainerClass
 using SMS.DBContext;
 using SMS.IRepository;
 using SMS.Repository;
+using SMS.Helper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -40,6 +43,26 @@ builder.Services.AddHttpContextAccessor();
 //As RegisterServices method is a Static method, so we don't need to create an instance of DependancyContainer class.
 DependancyContainer.RegisterServices(builder.Services, builder, builder.Configuration); //Registering Service for Dependancy Injection
 
+
+#region=================== PDF ===========================
+
+var OsPlatform = System.Runtime.InteropServices.RuntimeInformation.OSDescription;
+var context = new CustomAssemblyLoadContext();
+if (OsPlatform.Contains("Windows"))
+{
+    /* ==================Windows server===================*/
+    context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.dll"));
+}
+else if (OsPlatform.Contains("linux"))
+{
+    /* ==================Linux server===================*/
+    context.LoadUnmanagedLibrary(Path.Combine(Directory.GetCurrentDirectory(), "libwkhtmltox.so"));
+}
+
+
+builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+
+#endregion
 
 
 

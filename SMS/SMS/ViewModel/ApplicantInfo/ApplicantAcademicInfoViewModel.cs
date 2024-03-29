@@ -15,5 +15,7 @@ namespace SMS.ViewModel.ApplicantInfo
         public long PassingYear { get; set; }
         public decimal Result { get; set; }
         public string? Scale { get; set; }
+        public string? Group { get; set; }
+
     }
 }

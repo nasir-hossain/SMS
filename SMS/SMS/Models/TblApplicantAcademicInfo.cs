@@ -17,5 +17,7 @@ namespace SMS.Models
         public decimal NumResult { get; set; }
         public string? StrScale { get; set; }
         public bool? IsActive { get; set; }
+        [StringLength(50, MinimumLength = 1, ErrorMessage = "The field must be between 1 and 500 characters.")]
+        public string? StrGroup { get; set; }
     }
 }

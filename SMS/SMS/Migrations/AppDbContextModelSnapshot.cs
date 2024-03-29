@@ -45,6 +45,10 @@ namespace SMS.Migrations
                     b.Property<string>("StrBoard")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("StrGroup")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("StrInstitutionName")
                         .IsRequired()
                         .HasMaxLength(500)

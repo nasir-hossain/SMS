@@ -22,6 +22,8 @@ namespace SMS.ViewModel.ApplicantInfo
         public bool? IsClose { get; set; } = false;
         public bool? IsApprove { get; set; } = false;
         public bool? IsActive { get; set; } = false;
+        public string? FatherName { get; set; } = null;
+        public string? MotherName { get; set; } = null;
         public List<GetApplicantAcademicInfoViewModel> AcademicInfo { get; set; }
 
     }
@@ -35,5 +37,6 @@ namespace SMS.ViewModel.ApplicantInfo
         public long PassingYear { get; set; }
         public decimal Result { get; set; }
         public string? Scale { get; set; }
+        public string? Group { get; set; }
     }
 }

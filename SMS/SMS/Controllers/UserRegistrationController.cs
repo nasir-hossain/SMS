@@ -1,27 +1,31 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DinkToPdf;
+using DinkToPdf.Contracts;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SMS.DBContext;
 using SMS.Helper;
 using SMS.IRepository;
+using SMS.Services.PDF.Interface;
 using SMS.Services.UploadFile.Interface;
 using SMS.ViewModel;
 using SMS.ViewModel.ApplicantInfo;
 
 namespace SMS.Controllers
 {
+
     public class UserRegistrationController : Controller
     {
         private readonly IUserRegistration _IRepository;
         private readonly IMasterService _masterService;
-        private readonly IUploadfile _uploadFile;
         private readonly AppDbContext _context;
+        private readonly IAdmitCardPdfService _pdfService;
 
-        public UserRegistrationController(IUserRegistration IRepository, AppDbContext context, IMasterService masterService, IUploadfile uploadFile)
+        public UserRegistrationController(IUserRegistration IRepository, AppDbContext context, IMasterService masterService, IUploadfile uploadFile, IAdmitCardPdfService pdfService)
         {
             _IRepository = IRepository;
             _context = context;
             _masterService = masterService;
-            _uploadFile = uploadFile;
+            _pdfService = pdfService;
         }
 
         [HttpGet]
@@ -317,19 +321,22 @@ namespace SMS.Controllers
                 throw ex;
             }
         }
-
+        
 
         [HttpGet]
-        public IActionResult TestFileUpload()
+        public async Task<IActionResult> GetApplicantAdmitCard()
         {
-            return View();
+            try
+            {
+                var data = await _IRepository.GetApplicantAdmitCard();
+                byte[] file = await _pdfService.GetApplicantAdmitCardPDF(data);
+                return File(file, "application/pdf");
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> TestFileUpload(IFormFile file)
-        {
-            var data = await _uploadFile.FileUpload(file);
-            return View();
-        }
     }
 }

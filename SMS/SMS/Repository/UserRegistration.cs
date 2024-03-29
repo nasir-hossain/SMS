@@ -7,6 +7,7 @@ using SMS.Helper;
 using SMS.IRepository;
 using SMS.Models;
 using SMS.Services.UploadFile.Interface;
+using SMS.ViewModel.AdmitCardPrint;
 using SMS.ViewModel.ApplicantInfo;
 using System.ComponentModel.DataAnnotations;
 
@@ -89,7 +90,8 @@ namespace SMS.Repository
                         IntPassingYear = x.PassingYear,
                         NumResult = x.Result,
                         StrScale = x.Scale,
-                        IsActive = true
+                        IsActive = true,
+                        StrGroup = x.Group
                     }).ToList();
 
                     await _context.TblApplicantAcademicInfo.AddRangeAsync(AddList);
@@ -152,7 +154,8 @@ namespace SMS.Repository
                                                                   Board = ac.StrBoard,
                                                                   Result = ac.NumResult,
                                                                   Scale = ac.StrScale,
-                                                                  PassingYear = ac.IntPassingYear
+                                                                  PassingYear = ac.IntPassingYear,
+                                                                  Group = ac.StrGroup
                                                               }).ToList()
                                           }).ToListAsync();
 
@@ -286,24 +289,60 @@ namespace SMS.Repository
         //    }
         //}
 
+        public async Task<GetApplicantHeaderPrintViewModel> GetApplicantAdmitCard()
+        {
+            try
+            {
+                var LoggedInUserId = _loggedInUser.GetLoggedInUserInfo().UserId;
+                var UserReferenceId = await _context.TblUser.Where(x => x.IntId == Convert.ToInt64(LoggedInUserId ?? "0") && x.IsActive == true).Select(x => x.IntUserReferenceId).FirstOrDefaultAsync() ?? 0;
 
-        //public async Task<GetApplicantHeaderInfoViewModel> GetLoggedInApplicantData()
-        //{
-        //    try
-        //    {
-        //        var LoggedInUserInfo = _contextAccessor.HttpContext.User;
-        //        var LoggedInUserId = LoggedInUserInfo.FindAll(System.Security.Claims.ClaimTypes.NameIdentifier).Select(x => x.Value).FirstOrDefault();
-        //        var LoggedInName = LoggedInUserInfo.FindAll(System.Security.Claims.ClaimTypes.Name).Select(x => x.Value).FirstOrDefault();
+                var PersonalData = await (from appInfo in _context.TblApplicantInfoHeader
+                                          join dept in _context.TblDepartment on appInfo.IntFirstDepartmentId equals dept.IntId
+                                          join dept2 in _context.TblDepartment on appInfo.IntOptionalDepartmentId equals dept2.IntId
+                                          join sem in _context.TblSemester on appInfo.IntSemesterId equals sem.IntId
+                                          where appInfo.IntId == UserReferenceId
+                                          && appInfo.IsActive == true && dept.IsActive == true && sem.IsActive == true && sem.IsRunning == true
+                                          select new GetApplicantHeaderPrintViewModel
+                                          {
+                                              SemesterName = sem.StrSemesterName,
+                                              FullName = appInfo.StrFullName,
+                                              FirstDepartmentName = dept.StrDepartmentName,
+                                              OptionalDepartmentName = dept2.StrDepartmentName,
+                                              Email = appInfo.StrEmail,
+                                              ContactNumber = appInfo.StrContactNumber,
+                                              Address = appInfo.StrAddress,
+                                              Gender = appInfo.StrGender,
+                                              Nationality = appInfo.StrNationality,
+                                              DoB = appInfo.DteDoB.Date,
+                                              RegistrationCode = appInfo.StrRegistrationCode,
+                                              Religion = appInfo.StrReligion,
+                                              FatherName = appInfo.FatherName,
+                                              MotherName =  appInfo.MotherName,
+                                              ExamDateTime = sem.DteAdmissionDate,
+                                              Attachment = appInfo.StrAttachment,
+                                              AcademicInfo = (from ac in _context.TblApplicantAcademicInfo
+                                                              where ac.IntApplicantHeaderId == appInfo.IntId
+                                                              && ac.IsActive == true
+                                                              select new GetApplicantAcademicPrintViewModel
+                                                              {
+                                                                  InstitutionName = ac.StrInstitutionName,
+                                                                  RegistrationNumber = ac.StrRegistrationNumber,
+                                                                  Board = ac.StrBoard,
+                                                                  Result = ac.NumResult,
+                                                                  Scale = ac.StrScale,
+                                                                  PassingYear = ac.IntPassingYear,
+                                                                  Group = ac.StrGroup
+                                                              }).ToList()
+                                          }).FirstOrDefaultAsync();
 
-        //        var UserInfo = _context.TblUser.Where(x=>)
-
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
-
+                return PersonalData;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+         
 
     }
 }
