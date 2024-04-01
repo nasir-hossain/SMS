@@ -1,5 +1,6 @@
 ﻿using DinkToPdf;
 using DinkToPdf.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SMS.DBContext;
@@ -28,6 +29,7 @@ namespace SMS.Controllers
             _pdfService = pdfService;
         }
 
+        [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> CreateApplicant()
         {
@@ -268,7 +270,8 @@ namespace SMS.Controllers
 
 
                 await _IRepository.CreateApplicant(model, file);
-                return View(ViewModel);
+                //return View(ViewModel);
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
@@ -277,6 +280,7 @@ namespace SMS.Controllers
         }
 
 
+        [Authorize(Policy = "SuperAdminPolicy")]
         [HttpGet]
         public async Task<IActionResult> GetApplicantInfo(long? departmentId)
         {
@@ -308,6 +312,7 @@ namespace SMS.Controllers
         }
 
 
+        [Authorize(Policy = "SuperAdminPolicy")]
         [HttpGet]
         public async Task<IActionResult> ApproveApplicant(long Id)
         {
@@ -321,8 +326,9 @@ namespace SMS.Controllers
                 throw ex;
             }
         }
-        
 
+
+        [Authorize(Policy = "ApplicantPolicy")]
         [HttpGet]
         public async Task<IActionResult> GetApplicantAdmitCard()
         {

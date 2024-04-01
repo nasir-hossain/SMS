@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SMS.DBContext;
 using SMS.Models;
 using System.Diagnostics;
 
@@ -9,11 +10,13 @@ namespace SMS.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IHttpContextAccessor _contextAccessor;
+        private readonly AppDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger, IHttpContextAccessor contextAccessor)
+        public HomeController(ILogger<HomeController> logger, IHttpContextAccessor contextAccessor, AppDbContext context)
         {
             _logger = logger;
             _contextAccessor = contextAccessor;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -25,10 +28,17 @@ namespace SMS.Controllers
                 {
                     return RedirectToAction("SuperAdmin", "Home");
                 }
+
+                else if (userInfo.IsInRole("Student"))
+                {
+                    return RedirectToAction("Student", "Home");
+                }
+
                 else
                 {
                     return RedirectToAction("Applicant", "Home");
                 }
+                
             }
             return View();
         }
@@ -42,7 +52,23 @@ namespace SMS.Controllers
 
 
         [Authorize(Policy = "ApplicantPolicy")]
-        public IActionResult Applicant()
+        public  IActionResult Applicant()
+        {
+            DateTime CD = DateTime.Now;
+            var Sem = (from s in _context.TblSemester
+                               where s.IsRunning == true
+                               && CD <= s.DteApplicationDeadLine
+                               && s.IsActive == true
+                               select new
+                               {
+                                   IsRunning = s.IsRunning,
+                               }).FirstOrDefault();
+            ViewBag.IsSemesterRunning = Sem.IsRunning;
+            return View();
+        }
+
+        [Authorize(Policy = "StudentPolicy")]
+        public IActionResult Student()
         {
             return View();
         }

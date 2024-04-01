@@ -58,11 +58,11 @@ namespace IdentityAPP.Helper
                         <p>Thank you for applying! We are excited to have you on board. Your Registration Number is: {registrationNo}</p>
                         <p>Your Admission Exam Date is on {AddmissionDate}</p>
                         <p>Please download your Admit card from link below:</p>
-                        <a href=""[Registration Link]"" class=""cta-button"">Click To Download Admit Card</a>
+                        <a href=""https://localhost:7263/UserRegistration/GetApplicantAdmitCard"" class=""cta-button"">Click To Download Admit Card</a>
                         <p>User Email: {email} <br>password: {password} </p>
 
                         <p>If the button above doesn't work, you can also copy and paste the following link into your browser:</p>
-                        <p>[Registration Link]</p>
+                        <p>https://localhost:7263/UserRegistration/GetApplicantAdmitCard</p>
                         <p>Best Wishes for your upcomming Admission Exam</p>
                         <p>Best regards,<br>{Admin}, <br>HR & Admin, BAIUST</p>
                       </div>

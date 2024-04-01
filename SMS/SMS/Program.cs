@@ -32,7 +32,7 @@ builder.Services.AddAuthorization(options => //For Policy Based Authorization
 {
     options.AddPolicy("SuperAdminPolicy", policy => policy.RequireRole("SuperAdmin"));
     options.AddPolicy("ApplicantPolicy", policy => policy.RequireRole("Applicant"));
-    options.AddPolicy("AdminPolicy", policy => policy.RequireRole("Admin"));
+    options.AddPolicy("StudentPolicy", policy => policy.RequireRole("Student"));
 });
 
 builder.Services.AddHttpContextAccessor();

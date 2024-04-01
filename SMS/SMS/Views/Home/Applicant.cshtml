@@ -3,6 +3,12 @@
     Layout = "_Layout";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-</div>
+@if (ViewBag.IsSemesterRunning == true)
+{
+    <div class="row" style="margin-top:50px; margin-left:600px;">
+        <div class="col-12">
+            <button class="btn btn-success"><a class="text-white" asp-action="GetApplicantAdmitCard" asp-controller="UserRegistration">Download Your AdmitCard</a></button>
+        </div>
+    </div>
+}
+

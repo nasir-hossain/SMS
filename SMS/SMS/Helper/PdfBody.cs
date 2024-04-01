@@ -108,7 +108,7 @@ namespace SMS.Helper
 									<p><b>Registration No: </b>{viewModel.AcademicInfo[1].RegistrationNumber}</p>
 									<p><b>School Name: </b>{viewModel.AcademicInfo[1].InstitutionName}</p>
 									<p><b>Passing Year: </b>{viewModel.AcademicInfo[1].PassingYear}</p>
-									<p><b>Group: </b>Science</p>
+									<p><b>Group: </b>{viewModel.AcademicInfo[1].Group}</p>
 									<p><b>Grade: </b>{viewModel.AcademicInfo[1].Result}</p>
 									<p><b>Scale: </b>{viewModel.AcademicInfo[1].Scale}</p>
 									<p><b>Board: </b>{viewModel.AcademicInfo[1].Board}</p>
@@ -120,7 +120,7 @@ namespace SMS.Helper
 									<p><b>Registration No: </b>{viewModel.AcademicInfo[0].RegistrationNumber}</p>
 									<p><b>School Name: </b>{viewModel.AcademicInfo[0].InstitutionName}</p>
 									<p><b>Passing Year: </b>{viewModel.AcademicInfo[0].PassingYear}</p>
-									<p><b>Group: </b>Science</p>
+									<p><b>Group: </b>{viewModel.AcademicInfo[0].Group}</p>
 									<p><b>Grade: </b>{viewModel.AcademicInfo[0].Result}</p>
 									<p><b>Scale: </b>{viewModel.AcademicInfo[0].Scale}</p>
 									<p><b>Board: </b>{viewModel.AcademicInfo[0].Board}</p>
