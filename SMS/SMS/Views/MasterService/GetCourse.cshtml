@@ -1,0 +1,101 @@
+﻿@model IEnumerable<SMS.ViewModel.CourseInfo.GetCourseViewModel>
+
+@{
+    ViewData["Title"] = "Course";
+    Layout = "_AdminLayout";
+}
+
+<div class="margin-top-50">
+    <h3 class="alert alert-light ms-2  mt-3">Course Info</h3>
+
+    <form class=" bg-light p-3 ms-3">
+        <div class="row">
+            <label for="SelectedId" class="mb-2 text-success" style="font-size:15px;">Department</label>
+
+
+            <div class="col-2">
+                <select id="SelectedId" class="form-select">
+                    <option value="0">All</option>
+                    @foreach (var option in ViewBag.DeptDDL as List<SelectListItem>)
+                    {
+                        <option value="@option.Value">@option.Text</option>
+                    }
+                </select>
+            </div>
+
+
+            <div class="col-1">
+                <button class="btn btn-primary rounded form-control" id="btn">View</button>
+            </div>
+
+            <div class="col-1">
+                <button class="btn btn-success rounded form-control">Create</button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+<hr>
+
+
+<table class="table table-responsive-sm border table-bordered  ms-3" style="font-size:12px; ">
+    <thead class="fw-normal">
+        <tr>
+
+            <th>
+                Department
+            </th>
+            <th>
+                Course Name
+            </th>
+           
+            <th>
+                Course Code
+            </th>
+            <th>
+                Credit Hour
+            </th>
+           
+            <th class="text-center">
+                Edit
+            </th>
+            <th class="text-center">
+                Delete
+            </th>
+        </tr>
+    </thead>
+
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <tbody>
+
+                <tr>
+                    <td>
+                        @item.DepartmentName
+                    </td>
+                    <td>
+                        @item.CourseName
+                    </td>
+                    <td>
+                        @item.CourseCode
+                    </td>
+                    <td>
+                        @item.Credit
+                    </td>
+
+            </tbody>
+        }
+    }
+
+</table>
+
+
+
+
+
+
+

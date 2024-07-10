@@ -4,6 +4,7 @@ using SMS.Helper;
 using SMS.IRepository;
 using SMS.Models;
 using SMS.ViewModel;
+using SMS.ViewModel.CourseInfo;
 using System.Diagnostics.Eventing.Reader;
 
 namespace SMS.Repository
@@ -180,6 +181,67 @@ namespace SMS.Repository
                 //throw ex;
                 return new MessageHelper() { Message = ex.Message, StatusCode = 500 };
             }
+        }
+        #endregion
+
+
+        #region============ Course Info ===============
+
+        public async Task<MessageHelper> CreateCourse(CourseViewModel viewModel)
+        {
+            try
+            {
+                var DataList = new List<TblCourse>();
+                DataList = (from c in viewModel.CourseModel
+                            select new TblCourse
+                            {
+                                StrCourseName = c.CourseName,
+                                IntDepartmentId = c.DepartmentId,
+                                NumCredit = c.Credit,
+                                IsActive = true,
+                            }).ToList();
+
+                if (DataList.Any())
+                {
+                    await _context.TblCourse.AddRangeAsync(DataList);
+                    await _context.SaveChangesAsync();
+                }
+
+                return new MessageHelper
+                {
+                    Message = "Created Successfully",
+                    StatusCode = 200,
+                };
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<List<GetCourseViewModel>>GetCourse(long? departmetId)
+        {
+            try
+            {
+                var Data = await (from c in _context.TblCourse
+                                  join d in _context.TblDepartment on c.IntDepartmentId equals d.IntId
+                                  where (c.IntDepartmentId == departmetId || departmetId == 0 || departmetId == null)
+                                  && c.IsActive == true && d.IsActive == true
+                                  select new GetCourseViewModel
+                                  {
+                                      Id = c.IntId,
+                                      CourseName = c.StrCourseName,
+                                      CourseCode = c.StrCourseCode,
+                                      DepartmentId = c.IntDepartmentId,
+                                      DepartmentName = d.StrDepartmentName,
+                                      Credit = c.NumCredit
+                                  }).ToListAsync();
+                return Data;
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            };
         }
         #endregion
 

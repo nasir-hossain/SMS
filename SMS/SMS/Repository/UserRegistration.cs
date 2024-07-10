@@ -125,7 +125,7 @@ namespace SMS.Repository
                                           join dept in _context.TblDepartment on appInfo.IntFirstDepartmentId equals dept.IntId
                                           join dept2 in _context.TblDepartment on appInfo.IntOptionalDepartmentId equals dept2.IntId
                                           join sem in _context.TblSemester on appInfo.IntSemesterId equals sem.IntId
-                                          where (appInfo.IntFirstDepartmentId == departmentId || departmentId == 0)
+                                          where (appInfo.IntFirstDepartmentId == departmentId || departmentId == 0 || departmentId == null)
                                           && appInfo.IsActive == true && dept.IsActive == true && sem.IsActive == true && sem.IsRunning == true
                                           select new GetApplicantHeaderInfoViewModel
                                           {

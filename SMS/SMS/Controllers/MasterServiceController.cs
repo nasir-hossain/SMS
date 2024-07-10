@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SMS.DBContext;
 using SMS.IRepository;
 using SMS.Repository;
 using SMS.ViewModel;
+using SMS.ViewModel.ApplicantInfo;
+using SMS.ViewModel.CourseInfo;
 
 namespace SMS.Controllers
 {
@@ -13,10 +16,13 @@ namespace SMS.Controllers
     {
         private readonly IMasterService _IRepository;
         private readonly AppDbContext _context;
-        public MasterServiceController(IMasterService IRepository, AppDbContext context)
+        private readonly IMasterService _masterService;
+
+        public MasterServiceController(IMasterService IRepository, AppDbContext context, IMasterService masterService)
         {
-             _IRepository = IRepository;
-             _context = context;
+            _IRepository = IRepository;
+            _context = context;
+            _masterService = masterService;
         }
 
 
@@ -44,13 +50,13 @@ namespace SMS.Controllers
             var Data = await _IRepository.GetSemester();
             ViewBag.Msg = TempData["msg"];
             return View(Data);
-        } 
-        
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> DeleteSemester(long? Id) // asp-route-id er maddhome Id ta pabo
         {
-            if(Id == null)
+            if (Id == null)
             {
                 return NotFound();
             }
@@ -63,14 +69,14 @@ namespace SMS.Controllers
                                          SemesterName = x.StrSemesterName
                                      })
                                      .FirstOrDefaultAsync();
-            if(Data == null)
+            if (Data == null)
             {
                 return NotFound();
             }
 
             return View(Data);
         }
-        
+
 
         [HttpPost]
         public async Task<IActionResult> DeleteSemester(long Id)
@@ -146,5 +152,57 @@ namespace SMS.Controllers
         }
 
         #endregion
+
+
+        #region============== Course Info =================
+
+        [HttpGet]
+        public async Task<IActionResult> CreateCourse()
+        {
+            CourseViewModel ViewModel = new CourseViewModel();
+            ViewModel.DepartmentModel = new List<SelectListItem>();
+            var departmentList = await _masterService.GetDepartment();
+            departmentList.ForEach(x =>
+            {
+                SelectListItem DDLData = new SelectListItem()
+                {
+                    Text = x.DepartmentName,
+                    Value = x.Id.ToString(),
+                };
+
+                ViewModel.DepartmentModel.Add(DDLData);
+            });
+
+
+            return View(ViewModel);
+        }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetCourse(long? departmetId)
+        {
+
+            List<SelectListItem> SelectedList = new List<SelectListItem>();
+            var DepartmentList =await _masterService.GetDepartment();
+
+            DepartmentList.ForEach(x =>
+            {
+                var selectedItem = new SelectListItem()
+                {
+                    Text = x.DepartmentName,
+                    Value = x.Id.ToString(),
+                };
+
+                SelectedList.Add(selectedItem);
+            });
+
+            var Data = await _IRepository.GetCourse(departmetId);
+            ViewBag.DeptDDL = SelectedList;
+            return View(Data);
+        }
+
+        #endregion
     }
+
 }

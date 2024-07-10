@@ -36,7 +36,7 @@
     </header>
 
 @*border border-1 border-success *@
-    <div class="container-fluid">
+    <div class="container-fluid margin-top-100">
         <main role="main" class="pb-3">
 
             <div class="sidebar floatleft">
@@ -45,10 +45,11 @@
                     <li><a asp-controller="UserRegistration" asp-action="GetApplicantInfo">Applicants Info</a></li>
                     <li><a asp-controller="MasterService" asp-action="GetSemester">Semester</a></li>
                     <li><a asp-controller="MasterService" asp-action="GetDepartment">Department</a></li>
+                    <li><a asp-controller="MasterService" asp-action="GetCourse">Course</a></li>
                 </ul>
             </div>
 
-            <div class="contentMain floatleft">
+            <div class="contentMain floatleft ">
                 @RenderBody()
             </div>
 

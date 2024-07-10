@@ -215,6 +215,41 @@ namespace SMS.Migrations
                     b.ToTable("TblCodeGenerator");
                 });
 
+            modelBuilder.Entity("SMS.Models.TblCourse", b =>
+                {
+                    b.Property<long>("IntId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("IntId"), 1L, 1);
+
+                    b.Property<long>("IntDepartmentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<decimal?>("NumCourseFee")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("NumCredit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("StrCourseCode")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("StrCourseName")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("IntId");
+
+                    b.ToTable("TblCourse");
+                });
+
             modelBuilder.Entity("SMS.Models.TblDepartment", b =>
                 {
                     b.Property<long>("IntId")

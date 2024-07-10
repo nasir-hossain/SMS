@@ -63,7 +63,8 @@ namespace SMS.Controllers
                                {
                                    IsRunning = s.IsRunning,
                                }).FirstOrDefault();
-            ViewBag.IsSemesterRunning = Sem.IsRunning;
+            //ViewBag.IsSemesterRunning = Sem.IsRunning;
+            ViewBag.IsSemesterRunning = true;
             return View();
         }
 

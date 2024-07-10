@@ -1,0 +1,46 @@
+﻿@model SMS.ViewModel.CourseInfo.CreateCourseViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "_AdminLayout";
+
+}
+
+<div class="row mt-4">
+    <div class="col-md-3 ms-4">
+        <form asp-controller="MasterService" asp-action="CreateSemester" method="post" class="bg-light p-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group mt-2">
+                <label asp-for="CourseName" class="control-label" style="font-size:15px">Semester Name</label>
+                <input asp-for="CourseName" class="form-control mt-2" />
+                <span asp-validation-for="CourseName" class="text-danger" style="font-size:15px"></span>
+            </div>
+            
+            <div class="form-group mt-2">
+                <label asp-for="DepartmentId" class="control-label" style="font-size:15px">Department</label>
+                <input asp-for="DepartmentId" class="form-control mt-2" />
+                <span asp-validation-for="DepartmentId" class="text-danger" style="font-size:15px"></span>
+            </div> 
+            
+            <div class="form-group mt-2">
+                <label asp-for="Credit" class="control-label" style="font-size:15px">Credit</label>
+                <input asp-for="Credit" class="form-control mt-2" />
+                <span asp-validation-for="Credit" class="text-danger" style="font-size:15px"></span>
+            </div>
+
+            <div class="form-group mt-3">
+                <input type="submit" value="Save" class="btn btn-primary" />
+                <a class="btn btn-success ms-2" asp-controller="MasterService" asp-action="GetSemester">Back to list</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

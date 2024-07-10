@@ -1,5 +1,6 @@
 ﻿using SMS.Helper;
 using SMS.ViewModel;
+using SMS.ViewModel.CourseInfo;
 
 namespace SMS.IRepository
 {
@@ -13,6 +14,12 @@ namespace SMS.IRepository
         public Task<MessageHelper> CreateDepartment(DepartmentViewModel model);
         public Task<List<DepartmentViewModel>> GetDepartment();
         public Task<MessageHelper> DeleteDepartment(long Id);
+
+
+        public Task<MessageHelper> CreateCourse(CourseViewModel viewModel);
+        public Task<List<GetCourseViewModel>> GetCourse(long? departmetId);
+
+
 
 
     }
