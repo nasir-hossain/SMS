@@ -30,22 +30,22 @@
 }
 
 
-    .flex-item-3 ul {
-        position: absolute;
-        top: -999999px;
-        width: 200px;
-        padding: 10px;
-        list-style-type: none;
-    }
+.flex-item-3 ul {
+    position: absolute;
+    top: -999999px;
+    width: 200px;
+    padding: 10px;
+    list-style-type: none;
+}
 
 
 
-        .flex-item-3 ul li {
-            margin-top: 0;
-            background-color: ghostwhite;
-            margin-top: 1px;
-            padding: 5px;
-        }
+.flex-item-3 ul li {
+    margin-top: 0;
+    background-color: ghostwhite;
+    margin-top: 1px;
+    padding: 5px;
+}
 
 .flex-item-3 ul li a {
     color: gray;

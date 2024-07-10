@@ -28,8 +28,9 @@
                 <button class="btn btn-primary rounded form-control" id="btn">View</button>
             </div>
 
+
             <div class="col-1">
-                <button class="btn btn-success rounded form-control">Create</button>
+                <button asp-controller="MasterService" asp-action="CreateCourse" class="btn btn-success rounded form-control">Create</button>
             </div>
 
         </div>
@@ -92,6 +93,22 @@
     }
 
 </table>
+
+
+
+
+<script>
+
+    var option = document.getElementById("SelectedId");
+    var btn = document.getElementById("btn");
+
+    btn.addEventListener("click", function (e) {
+        e.preventDefault(); //used to prevent the default action of an event.
+
+        window.location.href = `/MasterService/GetCourse?departmentId=${encodeURIComponent(option.value)}`; //There will be No Sapces
+    });
+
+</script>
 
 
 

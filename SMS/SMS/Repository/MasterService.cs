@@ -187,15 +187,16 @@ namespace SMS.Repository
 
         #region============ Course Info ===============
 
-        public async Task<MessageHelper> CreateCourse(CourseViewModel viewModel)
+        public async Task<MessageHelper> CreateCourse(List<CreateCourseViewModel> viewModel)
         {
             try
             {
                 var DataList = new List<TblCourse>();
-                DataList = (from c in viewModel.CourseModel
+                DataList = (from c in viewModel
                             select new TblCourse
                             {
                                 StrCourseName = c.CourseName,
+                                StrCourseCode = c.CourseCode,
                                 IntDepartmentId = c.DepartmentId,
                                 NumCredit = c.Credit,
                                 IsActive = true,
