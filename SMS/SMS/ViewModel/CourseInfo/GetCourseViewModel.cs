@@ -11,4 +11,12 @@ namespace SMS.ViewModel.CourseInfo
         public string DepartmentName { get; set; }
         public decimal Credit { get; set; }
     }
+    public class GetCourseViewModelToAdd
+    {
+        public string CourseName { get; set; }
+        public string CourseCode { get; set; }
+        public long DepartmentId { get; set; }
+        public string DepartmentName { get; set; }
+        public decimal Credit { get; set; }
+    }
 }

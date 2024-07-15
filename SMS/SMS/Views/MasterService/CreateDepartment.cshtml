@@ -6,6 +6,11 @@
 
 }
 
+@*
+   asp-for er maddhome Model property gulo bind kora ache input field er sathe. form submit korle ei filed er maddhomei Model er 
+   property te value assign hobe. form a controller er action method diye dewa ache.. Post Request er maddhome Method er Payload a value gulo jabe.
+*@
+
 <div class="row mt-4">
     <div class="col-md-3 ms-4">
         <form asp-controller="MasterService" asp-action="CreateDepartment" method="post" class="bg-light p-4">
@@ -18,8 +23,8 @@
             </div>
 
             <div class="form-group mt-3">
-                <input type="submit" value="Save" class="btn btn-primary" />
-                <a class="btn btn-success ms-2" asp-controller="MasterService" asp-action="GetDepartment">Back</a>
+                <input type="submit" value="Save" class="btn btn-success" />
+                <a class="btn btn-secondary ms-2" asp-controller="MasterService" asp-action="GetDepartment">Back</a>
 
             </div>
         </form>

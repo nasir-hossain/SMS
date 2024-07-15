@@ -6,57 +6,107 @@
 
 }
 
-<div class="row mt-4">
+@*Jehetu Input Value Gulo Model er Property te pass korbo na tai, asp-for ="" er maddhome kono model er property bind kori nai
+   Id use kore Input Fileld er value gulo Js diye Dhorbo.
+*@
 
-    <form asp-controller="MasterService" asp-action="CreateSemester" method="post" class="bg-light p-4">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<form id="courseForm" asp-controller="" asp-action="" method="" class="bg-light p-3 mt-2">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+    <div class="row mt-4">
         <div class="d-flex justify-content-end me-5 mb-3">
-            <input type="submit" value="Save" class="btn btn-primary" />
-            <a class="btn btn-success ms-3" asp-controller="MasterService" asp-action="GetCourse">Back</a>
+            <input type="submit" value="Save" class="btn btn-success" />
+            <a class="btn btn-secondary ms-3" asp-controller="MasterService" asp-action="GetCourse">Back</a>
         </div>
 
         <div class="flex-Main">
             <div class="Form-Flex-Container ">
-                
+
 
                 <div class="me-3 mt-3 flex-item">
-                    <label asp-for="@Model.CourseModel.CourseName" class="control-label" style="font-size:15px">Course Name</label>
-                    <input asp-for="@Model.CourseModel.CourseName" class="form-control mt-2" />
-                    <span asp-validation-for="@Model.CourseModel.CourseName" class="text-danger" style="font-size:15px"></span>
+                    <label  class="control-label" style="font-size:15px">Course Name</label>
+                    <input  class="form-control mt-2" id="CourseName" />
                 </div>
 
                 <div class="me-3 mt-3 flex-item">
-                    <label asp-for="@Model.CourseModel.CourseCode" class="control-label" style="font-size:15px">Course Code</label>
-                    <input asp-for="@Model.CourseModel.CourseCode" class="form-control mt-2" />
-                    <span asp-validation-for="@Model.CourseModel.CourseCode" class="text-danger" style="font-size:15px"></span>
+                    <label class="control-label" style="font-size:15px">Course Code</label>
+                    <input  class="form-control mt-2" id="CourseCode" />
                 </div>
 
                 <div class="me-3 mt-3 flex-item">
-                    <label asp-for="@Model.CourseModel.DepartmentId" class="control-label mb-2" style="font-size:15px">Department</label>
-                    <select class="form-select" asp-items="@Model.DepartmentModel" asp-for="@Model.CourseModel.DepartmentId">
+                    <label  class="control-label mb-2" style="font-size:15px">Department</label>
+
+                    <select class="form-select"  id="DepartmentId">
                         <option>------- Select -------</option>
+                        @foreach (var option in Model.DepartmentModel)
+                        {
+                            <option value="@option.Value">@option.Text</option>
+                        }
                     </select>
-                    <span asp-validation-for="@Model.CourseModel.DepartmentId" class="text-danger" style="font-size:15px"></span>
                 </div>
 
                 <div class="me-3 mt-3 flex-item">
-                    <label asp-for="@Model.CourseModel.Credit" class="control-label" style="font-size:15px">Credit</label>
-                    <input asp-for="@Model.CourseModel.Credit" class="form-control mt-2" />
-                    <span asp-validation-for="CourseModel.Credit" class="text-danger" style="font-size:15px"></span>
+                    <label  class="control-label" style="font-size:15px">Credit</label>
+                    <input class="form-control mt-2" id="Credit" />
+                    <span  class="text-danger" style="font-size:15px"></span>
                 </div>
 
             </div>
         </div>
 
-        <div class="d-flex justify-content-end me-5 mt-3">
-            <input type="submit" value="Add" class="btn btn-primary" />
+        <div class="d-flex justify-content-end mt-3">
+            <input type="submit" value="Add" class="btn btn-primary me-3" id="addButton" />
         </div>
+    </div>
 
-    </form>
-</div>
+</form>
 
 
+@if (@ViewBag.AddList != null)
+{
+    <table class="table table-responsive-sm border table-bordered  ms-3" style="font-size:12px; ">
+        <thead class="fw-normal">
+            <tr>
+                <th>
+                    Course Name
+                </th>
+
+                <th>
+                    Course Code
+                </th>
+                <th>
+                    Department
+                </th>
+                <th>
+                    Credit Hour
+                </th>
+            </tr>
+        </thead>
+
+
+    @foreach (var item in @ViewBag.AddList)
+    {
+        <tbody>
+
+            <tr>
+                <td>
+                    @item.CourseName
+                </td>
+                <td>
+                    @item.CourseCode
+                </td>
+                <td>
+                    @item.DepartmentName
+                </td>
+                <td>
+                    @item.Credit
+                </td>
+        </tbody>
+    }
+
+    </table>
+
+}
 
 
 
@@ -67,3 +117,77 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 }
+
+<script>
+    function clearSession() {
+        fetch('/MasterService/ClearSession', {
+            method: 'GET',
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Session cleared');
+            } else {
+                console.error('Failed to clear session');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    window.addEventListener('beforeunload', function () {
+        sessionStorage.setItem('reloaded', 'true');
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        if (sessionStorage.getItem('reloaded')) {
+            sessionStorage.removeItem('reloaded'); 
+            clearSession();
+        }
+
+        window.addEventListener('popstate', function () {
+            clearSession();
+        });
+    });
+
+
+
+    document.getElementById('addButton').addEventListener('click', function () {
+        event.preventDefault(); // Prevent default form submission
+
+        var CourseName= document.getElementById('CourseName').value;
+        var CourseCode= document.getElementById('CourseCode').value;
+        var DepartmentId= document.getElementById('DepartmentId').value;
+        var Credit= document.getElementById('Credit').value;
+
+        var courseData = {
+            CourseName:CourseName,
+            CourseCode:CourseCode,
+            DepartmentId:DepartmentId,
+            Credit:Credit
+        };
+
+        fetch('/MasterService/GetCourseToAdd', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(courseData)
+        })
+        .then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            throw new Error('Network response was not ok.');
+        })
+        .then(data => {
+            console.log('Success:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+
+
+
+</script>

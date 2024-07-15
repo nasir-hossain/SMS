@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using SMS.DBContext;
 using SMS.IRepository;
 using SMS.Repository;
@@ -178,6 +179,47 @@ namespace SMS.Controllers
         }
 
 
+        [HttpPost]
+        public async Task<IActionResult> GetCourseToAdd([FromBody] GetCourseViewModelToAdd newObj)
+        {
+            try
+            {
+                List<GetCourseViewModelToAdd> objList = new List<GetCourseViewModelToAdd>();
+
+                var data = new GetCourseViewModelToAdd
+                {
+                    DepartmentId = newObj.DepartmentId,
+                    DepartmentName = await _context.TblDepartment.Where(x => x.IntId == newObj.DepartmentId).Select(x => x.StrDepartmentName).FirstOrDefaultAsync() ?? "",
+                    CourseName = newObj.CourseName,
+                    CourseCode = newObj.CourseCode,
+                    Credit = newObj.Credit
+                };
+
+                // Retrieve existing session data
+                string? getSessionData = HttpContext.Session.GetString("JsonObjList");
+
+                if (!string.IsNullOrEmpty(getSessionData))
+                {
+                    var sessionList = JsonConvert.DeserializeObject<List<GetCourseViewModelToAdd>>(getSessionData);
+                    if (sessionList != null)
+                    {
+                        objList.AddRange(sessionList);
+                    }
+                }
+
+                objList.Add(data);
+
+                // Update the session with the new data
+                HttpContext.Session.SetString("JsonObjList", JsonConvert.SerializeObject(objList));
+
+                return Ok(objList);  // Jehetu Js diye Call Korechi tai Json Return korechi.
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
 
         [HttpGet]
         public async Task<IActionResult> GetCourse(long? departmetId)
@@ -199,7 +241,17 @@ namespace SMS.Controllers
 
             var Data = await _IRepository.GetCourse(departmetId);
             ViewBag.DeptDDL = SelectedList;
+            HttpContext.Session.Clear();
             return View(Data);
+        }
+
+
+
+        [HttpGet]
+        public IActionResult ClearSession()
+        {
+            HttpContext.Session.Clear();
+            return Ok("Session Cleared");
         }
 
         #endregion

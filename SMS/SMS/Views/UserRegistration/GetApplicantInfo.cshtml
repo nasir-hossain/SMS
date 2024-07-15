@@ -12,7 +12,6 @@
             <div class="col-2">
                 <select id="SelectedId" class="form-select">
                     <option value="0">All</option>
-
                     @foreach (var option in ViewBag.SelectedList as List<SelectListItem>)
                     {
                         <option value="@option.Value">@option.Text</option>
