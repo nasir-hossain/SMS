@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using SMS.DBContext;
 using SMS.IRepository;
+using SMS.Models;
 using SMS.Repository;
 using SMS.ViewModel;
 using SMS.ViewModel.ApplicantInfo;
@@ -178,6 +179,35 @@ namespace SMS.Controllers
             return View(ViewModel);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> CreateCourse([FromBody] List<GetCourseViewModelToAdd> obj)
+        {
+            try
+            {
+                var AddList = obj.Select(x => new TblCourse
+                {
+                    StrCourseName = x.CourseName,
+                    StrCourseCode = x.CourseCode,
+                    IntDepartmentId = x.DepartmentId,
+                    NumCredit = x.Credit,
+                    IsActive = true
+
+                }).ToList();
+
+                await _context.TblCourse.AddRangeAsync(AddList);
+                await _context.SaveChangesAsync();
+
+                return Ok(new
+                {
+                    Message = "Created Successfully",
+                    StatusCode = 200,
+                });
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         [HttpPost]
         public async Task<IActionResult> GetCourseToAdd([FromBody] GetCourseViewModelToAdd newObj)
@@ -226,7 +256,7 @@ namespace SMS.Controllers
         {
 
             List<SelectListItem> SelectedList = new List<SelectListItem>();
-            var DepartmentList =await _masterService.GetDepartment();
+            var DepartmentList = await _masterService.GetDepartment();
 
             DepartmentList.ForEach(x =>
             {
@@ -246,6 +276,24 @@ namespace SMS.Controllers
         }
 
 
+
+        [HttpGet]
+        public IActionResult GetSessionData()
+        {
+            List<GetCourseViewModelToAdd> objList = new List<GetCourseViewModelToAdd>();
+
+            string? getSessionData = HttpContext.Session.GetString("JsonObjList");
+            if (!string.IsNullOrEmpty(getSessionData))
+            {
+                var sessionList = JsonConvert.DeserializeObject<List<GetCourseViewModelToAdd>>(getSessionData);
+                if (sessionList != null)
+                {
+                    objList.AddRange(sessionList);
+                }
+            }
+
+            return Ok(objList);
+        }
 
         [HttpGet]
         public IActionResult ClearSession()

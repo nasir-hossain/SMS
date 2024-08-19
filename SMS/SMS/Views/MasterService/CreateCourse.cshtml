@@ -6,8 +6,8 @@
 
 }
 
-@*Jehetu Input Value Gulo Model er Property te pass korbo na tai, asp-for ="" er maddhome kono model er property bind kori nai
-   Id use kore Input Fileld er value gulo Js diye Dhorbo.
+@*Jehetu Input Value Gulo Model er Property te pass korbo na tai, asp-for ="" er maddhome kono model er property bind kori nai,
+   tai Id use kore Input Field er value gulo Js diye Dhorbo.ebong Action Method a te Pathabo.
 *@
 
 <form id="courseForm" asp-controller="" asp-action="" method="" class="bg-light p-3 mt-2">
@@ -15,7 +15,7 @@
 
     <div class="row mt-4">
         <div class="d-flex justify-content-end me-5 mb-3">
-            <input type="submit" value="Save" class="btn btn-success" />
+            <input type="submit" value="Save" class="btn btn-success" id="saveButton" />
             <a class="btn btn-secondary ms-3" asp-controller="MasterService" asp-action="GetCourse">Back</a>
         </div>
 
@@ -62,9 +62,7 @@
 </form>
 
 
-@if (@ViewBag.AddList != null)
-{
-    <table class="table table-responsive-sm border table-bordered  ms-3" style="font-size:12px; ">
+    <table id="tbl" class="table table-responsive-sm border table-bordered  ms-3" style="font-size:12px; ">
         <thead class="fw-normal">
             <tr>
                 <th>
@@ -82,31 +80,16 @@
                 </th>
             </tr>
         </thead>
-
-
-    @foreach (var item in @ViewBag.AddList)
-    {
-        <tbody>
-
-            <tr>
-                <td>
-                    @item.CourseName
-                </td>
-                <td>
-                    @item.CourseCode
-                </td>
-                <td>
-                    @item.DepartmentName
-                </td>
-                <td>
-                    @item.Credit
-                </td>
-        </tbody>
-    }
+        <tbody id="tableBody"></tbody>
 
     </table>
 
-}
+
+    @* Add Button Click kore Action method theke View Return kore Model Object er maddhome Table Data gulo show koraile 
+        Page Refreash hobe..Ar Page Refreash hoile Amra session clear kore dei. Add korar por ager Data gulo clear hoye jay.
+        tai Js diye Action Method Call kore Data gulo Show korate hobe.Ar Action Method obossoi Json Return korbe.
+    *@
+
 
 
 
@@ -118,55 +101,26 @@
     }
 }
 
+
 <script>
-    function clearSession() {
-        fetch('/MasterService/ClearSession', {
-            method: 'GET',
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log('Session cleared');
-            } else {
-                console.error('Failed to clear session');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-    }
-
-    window.addEventListener('beforeunload', function () {
-        sessionStorage.setItem('reloaded', 'true');
-    });
-
-    document.addEventListener('DOMContentLoaded', function () {
-        if (sessionStorage.getItem('reloaded')) {
-            sessionStorage.removeItem('reloaded'); 
-            clearSession();
-        }
-
-        window.addEventListener('popstate', function () {
-            clearSession();
-        });
-    });
 
 
-
-    document.getElementById('addButton').addEventListener('click', function () {
+    document.getElementById('addButton').addEventListener('click', function (event) {
         event.preventDefault(); // Prevent default form submission
 
-        var CourseName= document.getElementById('CourseName').value;
-        var CourseCode= document.getElementById('CourseCode').value;
-        var DepartmentId= document.getElementById('DepartmentId').value;
-        var Credit= document.getElementById('Credit').value;
+        var CourseName = document.getElementById('CourseName').value;
+        var CourseCode = document.getElementById('CourseCode').value;
+        var DepartmentId = document.getElementById('DepartmentId').value;
+        var Credit = document.getElementById('Credit').value;
 
         var courseData = {
-            CourseName:CourseName,
-            CourseCode:CourseCode,
-            DepartmentId:DepartmentId,
-            Credit:Credit
+            CourseName: CourseName,
+            CourseCode: CourseCode,
+            DepartmentId: DepartmentId,
+            Credit: Credit
         };
 
+        //fetch method for POST Request
         fetch('/MasterService/GetCourseToAdd', {
             method: 'POST',
             headers: {
@@ -174,20 +128,143 @@
             },
             body: JSON.stringify(courseData)
         })
-        .then(response => {
-            if (response.ok) {
-                return response.json();
+        .then(x => {
+            if (!x.ok) {
+                throw new Error('Network response was not ok.');
+            } else {
+                return x.json();
             }
-            throw new Error('Network response was not ok.');
-        })
-        .then(data => {
-            console.log('Success:', data);
+        })  //First Promise "then"  theke json Return koreche, seta second Promise "then" a Process korechi.
+        .then(y => {
+            console.log('Success:', y); 
+
+            var tableBody = document.querySelector('#tableBody');
+
+            // Clear the table before appending new rows (if needed)
+            tableBody.innerHTML = ''; 
+
+
+            // Accumulate HTML string and update once after the loop
+            let rows = '';
+
+
+            //Json a fieldName er first letter Small  , tai Name Gulor first letter Small e rakhte hobe.
+            y.forEach(x => {
+                rows += `<tr>
+                    <td>${x.courseName}</td>
+                    <td>${x.courseCode}</td>
+                    <td>${x.departmentName}</td>
+                    <td>${x.credit}</td>
+                </tr>`;
+            });
+
+
+            // Set the innerHTML after the loop
+            tableBody.innerHTML = rows;
+
+            // Clear the input fields
+            document.getElementById('CourseName').value = '';
+            document.getElementById('CourseCode').value = '';
+            document.getElementById('DepartmentId').value = '------- Select -------';
+            document.getElementById('Credit').value = '';
         })
         .catch(error => {
             console.error('Error:', error);
         });
+
     });
 
+    document.getElementById('saveButton').addEventListener('click', function (event) {
+        event.preventDefault();
+
+        fetch('/MasterService/GetSessionData', {
+            method: 'GET',
+        })
+        .then(x => {
+            if (!x.ok) {
+                throw new Error('Network response was not ok.');
+            } else {
+                return x.json();
+            }
+        })
+        .then(x => {
+                fetch('/MasterService/CreateCourse', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(x)
+                })
+                .then(x => {
+                    if (!x.ok) {
+                        throw new Error('Network response was not ok.');
+                    } else {
+                        return x.json();
+                    }
+                })
+                .then(x=>{
+                    window.alert("Created Successfully");
+                })
+                .catch(ex => {
+                    console.error('Error:', ex);
+                })
+
+         })
+        .catch(ex => {
+            console.error('Error:', ex);
+        });
+    });
+
+
+
+
+
+
+
+    //beforeunload => This event is triggered when the user initiates a reload, close, or navigate away action.
+    window.addEventListener('beforeunload', function (event) {
+        event.preventDefault(); 
+
+        fetch('/MasterService/ClearSession', {
+            method:'GET'
+        })
+        .then(x => {
+            if (!x.ok) {
+                throw new Error('Network response was not ok ' + x.statusText);
+            }
+            else{
+                //return x.json();
+                return x.text;
+            }
+        })
+        .catch(err => {
+            console.error('There was a problem with the fetch operation:', err.tostring());
+        });
+    });
+
+
+    // This event is triggered whenever the visibility state of the page changes (e.g., switching to a different tab, minimizing the browser, etc.).
+    // document.hidden: This property returns true if the page is hidden (i.e., the user switched to another tab, minimized the browser, or the page is otherwise not visible) 
+    // and false when the page is visible again.
+    document.addEventListener('visibilitychange', function () {
+        if (document.hidden) {
+            fetch('/MasterService/ClearSession', {
+                method: 'GET'
+            })
+                .then(x => {
+                    if (!x.ok) {
+                        throw new Error('Network response was not ok ' + x.statusText);
+                    }
+                    else {
+                        //return x.json();
+                        return x.text;
+                    }
+                })
+                .catch(err => {
+                    console.error('There was a problem with the fetch operation:', err.tostring());
+                });
+        }
+    });
 
 
 </script>
