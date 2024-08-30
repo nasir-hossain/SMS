@@ -187,13 +187,13 @@
                 return x.json();
             }
         })
-        .then(x => {
+        .then(y => {
                 fetch('/MasterService/CreateCourse', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(x)
+                    body: JSON.stringify(y)
                 })
                 .then(x => {
                     if (!x.ok) {

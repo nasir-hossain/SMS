@@ -17,7 +17,7 @@ namespace SMS.IRepository
 
 
         public Task<MessageHelper> CreateCourse(List<CreateCourseViewModel> viewModel);
-        public Task<List<GetCourseViewModel>> GetCourse(long? departmetId);
+        public Task<List<GetCourseViewModel>> GetCourse(long? departmentId);
 
 
 

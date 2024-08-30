@@ -220,13 +220,13 @@ namespace SMS.Repository
             }
         }
 
-        public async Task<List<GetCourseViewModel>>GetCourse(long? departmetId)
+        public async Task<List<GetCourseViewModel>>GetCourse(long? departmentId)
         {
             try
             {
                 var Data = await (from c in _context.TblCourse
                                   join d in _context.TblDepartment on c.IntDepartmentId equals d.IntId
-                                  where (c.IntDepartmentId == departmetId || departmetId == 0 || departmetId == null)
+                                  where (c.IntDepartmentId == departmentId || departmentId == 0 || departmentId == null)
                                   && c.IsActive == true && d.IsActive == true
                                   select new GetCourseViewModel
                                   {

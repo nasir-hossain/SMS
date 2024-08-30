@@ -252,7 +252,7 @@ namespace SMS.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetCourse(long? departmetId)
+        public async Task<IActionResult> GetCourse(long? departmentId)
         {
 
             List<SelectListItem> SelectedList = new List<SelectListItem>();
@@ -269,7 +269,7 @@ namespace SMS.Controllers
                 SelectedList.Add(selectedItem);
             });
 
-            var Data = await _IRepository.GetCourse(departmetId);
+            var Data = await _IRepository.GetCourse(departmentId);
             ViewBag.DeptDDL = SelectedList;
             HttpContext.Session.Clear();
             return View(Data);
