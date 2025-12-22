@@ -1,8 +1,20 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
+## Build results
+bin/
+obj/
 
-/SMS/.vs/SMS
-/SMS/SMS/obj
-/SMS/SMS/bin/Release/net6.0
-/SMS/SMS/.config
+## Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Rider
+.idea/
+
+## OS files
+.DS_Store
+Thumbs.db
+
+## Logs
+*.log
